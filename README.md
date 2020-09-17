@@ -1,1 +1,0 @@
-# effect-sizes-scrollytelling
