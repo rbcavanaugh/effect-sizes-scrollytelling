@@ -23,7 +23,7 @@ source('text.R')
 ######################################################################################################
 
 
-ui <- fluidPage(
+ui <- fluidPage(     
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css"),
     tags$meta(name = "viewport", content = "width=1600, initial-scale = 1")
