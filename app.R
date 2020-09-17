@@ -28,10 +28,10 @@ ui <- fluidPage(
     tags$link(rel = "stylesheet", href = "style.css"),
     tags$meta(name = "viewport", content = "width=1600, initial-scale = 1")
   ),
-  longdiv(h1("Are all effect sizes created equal?"),
+  longdiv(h1("Effect size ScrollyTelling: In development..."),
           h4("Rob Cavanaugh", style = "text-align:center"),
            h5("Ph.D Student, University of Pittsburgh", style = "text-align:center"),
-           h5("last updated: 9-12-20", style = "text-align:center"),
+           h5("last updated: 9-17-20", style = "text-align:center"),
           h5(br(),
              br(),
              br(),
@@ -129,7 +129,8 @@ div(h3("Selected References"),
     p("R Core Team. (2020). R: A language and environment for statistical computing (4.0.2). R Foundation for Statistical Computing. https://www.r-project.org/"),
     p("Wiley, R. W., & Rapp, B. (2018). Statistical analysis in Small-N Designs: Using linear mixed-effects modeling for evaluating intervention effectiveness. Aphasiology, 33(1), 1–30. https://doi.org/10.1080/02687038.2018.1454884"),
     style = "text-align:left",
-    style = "padding:10%")
+    style = "padding:10%"),
+div(p(icon('copyright'), "2020 Robert Cavanaugh"), style = "text-align:center; padding:2%")
 )
 
 
@@ -207,7 +208,7 @@ server <- function(input, output) {
             plot.background = element_rect(fill = "transparent",colour = NA),
             axis.title.x = element_text(size = 16, family = 'roboto'),
             axis.title.y = element_text(size = 16, family = 'roboto')) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .8) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .7) +
       ylab('Accuracy') +
       xlab("Session") 
     else if(t>2 & t<=13 & t !=5) df %>%
@@ -227,7 +228,7 @@ server <- function(input, output) {
             plot.background = element_rect(fill = "transparent",colour = NA),
             axis.title.x = element_text(size = 16, family = 'roboto'),
             axis.title.y = element_text(size = 16, family = 'roboto')) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .8) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .7) +
       ylab('Accuracy') +
       xlab("Session") 
     else if(t==5) df %>%
@@ -247,7 +248,7 @@ server <- function(input, output) {
             plot.background = element_rect(fill = "transparent",colour = NA),
             axis.title.x = element_text(size = 16, family = 'roboto'),
             axis.title.y = element_text(size = 16, family = 'roboto')) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .8) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .7) +
       ylab('Accuracy') +
       xlab("Session") +
       geom_segment(aes(x = 3, y = .1666, xend = 6, yend = .0666), color = 'black',size = .25,

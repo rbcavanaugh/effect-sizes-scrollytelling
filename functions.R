@@ -31,7 +31,7 @@ longdiv <- function(...){
   div(
     ...,
     class = "container",
-    style = "height:100vh; line-height:120vh; padding:20%"
+    style = "height:90vh; line-height:120vh; padding:20%"
     
   )
 }
