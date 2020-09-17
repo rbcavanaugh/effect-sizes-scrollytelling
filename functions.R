@@ -1,61 +1,37 @@
-# creates 100vh div
+
+library(readr)
+library(here)
+library(dplyr)
+library(ggplot2)
+library(see)
+library(RColorBrewer)
+
+df <- read.csv(here('data', 'session_summary.csv')) %>%
+  filter(condition == 1) %>%
+  mutate(sub_id = as.factor(sub_id),
+         phase = as.factor(phase)
+  ) 
+
+# df2 <- df1 %>%
+#   mutate(new_id = 0)
+# 
+# df <- bind_rows(df1, df2)
+
+colr <- scales::hue_pal()(6)
+
+t = 1
+
+library(showtext)
+font_add_google(name = "Roboto", family = "roboto",
+                regular.wt = 300, bold.wt = 500)
+showtext_auto()
+showtext_opts(dpi = 112)
+
 longdiv <- function(...){
   div(
     ...,
     class = "container",
-    style = "height:100vh;"
-  )
-}
-
-edge_colors <- colorRampPalette(c("#575b73", "#8592b0", "#8da0bb"))(9)
-
-months <- c("April", "May", "June", "July", "August", "September", "October", "November", "December")
-
-# add data.
-add_data <- function(wp){
-  
-  n <- nodes %>% 
-    filter(appear == wp)
-  
-  e <- edges %>% 
-    filter(appear == wp)
-  
-  ec <- edges %>% 
-    filter(appear <= wp) %>% 
-    mutate(
-      new_color = edge_colors[wp]
-    )
-
-  sigmajsProxy("graph") %>% 
-    sg_force_kill_p() %>% 
-    sg_read_nodes_p(n, id, label, color, size) %>% 
-    sg_read_edges_p(e, id, source, target, weight) %>% 
-    sg_read_exec_p() %>% 
-    sg_change_edges_p(ec, new_color, "color") %>% 
-    sg_refresh_p() %>% 
-    sg_force_start_p(strongGravityMode = TRUE, slowDown = 5)
-}
-
-render_month <- function(wp, cl = "dark"){
-  tagList(
-    h1(months[wp], class = paste(cl, "big")),
-    render_count(wp)
-  )
-}
-
-.get_tweet_count <- function(wp){
-  n_tweets %>% 
-    filter(created_at == wp) %>% 
-    pull(cs) %>% 
-    prettyNum(big.mark = ",") %>% 
-    span(
-      class = "sg-dark emph"
-    )
-}
-
-render_count <- function(wp, cl = "dark"){
-  p(
-    "By", months[wp], .get_tweet_count(wp), "Twitter users have tweeted about #tidytuesday.",
-    class = cl
+    style = "height:100vh; line-height:120vh; padding:20%"
+    
   )
 }

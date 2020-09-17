@@ -1,17 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300');
 
 body {
-  color: #3a3a3a;
-  font-family: 'Raleway', sans-serif;
-}
-
-#bg {
-  background: rgb(142,162,190);
-  background: linear-gradient(180deg, rgba(142,162,190,1) 0%, rgba(66,74,88,1) 100%);
+  background-color: #B0BEC5 ;
+  font-family: 'Roboto', sans-serif;
 }
 
 .container-fluid{
-  padding: 0;
+  padding: 50px;
 }
 
 .big{
@@ -53,4 +48,140 @@ body {
 
 a:hover{
   color: black;
+}
+
+.scrolly-container{
+  position: relative;
+}
+
+.scrolly-graph {
+  margin-left: 40px;
+  width: 60%;
+  position: sticky;
+  position: -webkit-sticky;
+  padding-right: 50px;
+  padding-top: 100px;
+  top: 100px;
+  float: right;
+}
+
+.scrolly-sections {
+  width: 40%;
+  padding-left:50px;
+  padding-top: 50px;
+  margin-bottom: 50px;
+}
+
+.scrolly-section {
+  opacity: 0.2;
+  margin-bottom: 300px;
+}
+
+.scrolly-sections .scrolly-section:last-child {
+  margin-bottom: 20vh;
+}
+
+.graph-scroll-active {
+  opacity: 1;
+}
+
+
+
+a:link {
+    background: #B0BEC5;
+    color: darkred;
+    font-size: large;
+    font-family: roboto;
+}
+
+a:visited {
+    background: #B0BEC5;
+    color: black;
+    font-family: roboto;
+    font-size: large;
+}
+
+h1 {
+    background: #B0BEC5;
+    color: black;
+    font-family: roboto;
+    font-size: xx-large;
+    text-align: center;
+}
+
+h2 {
+    background: #B0BEC5;
+    color: black;
+    font-family: roboto;
+    font-size: x-large;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+h3 {
+    background: #B0BEC5;
+    color: black;
+    font-family: roboto;
+    font-size: x-large;
+}
+
+h4 {
+    background: #B0BEC5;
+    color: black;
+    font-family: roboto;
+    font-weight: bold;
+    font-size: large;
+}
+
+h5 {
+    background: #B0BEC5;
+    color: black;
+    font-family: roboto;
+}
+
+h6 {
+    background: #B0BEC5;
+    color: black;
+    font-family: roboto;
+    font-style: italic;
+}
+		
+img.toplogo {
+    width: 4em;
+    vertical-align: middle;
+}
+
+img.arrow {
+    width: 30px;
+    height: 30px;
+    border: 0;
+}
+
+span.acronym {
+    font-size: small;
+}
+
+span.env {
+    font-family: roboto;
+}
+
+span.file {
+    font-family: roboto;
+}
+
+span.option{
+    font-family: roboto;
+}
+
+span.pkg {
+    font-weight: bold;
+}
+
+span.samp{
+    font-family: roboto;
+}
+
+div.vignettes a:hover {
+    background: rgb(85%, 85%, 85%);
 }
