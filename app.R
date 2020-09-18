@@ -23,11 +23,12 @@ source('text.R')
 ######################################################################################################
 
 
-ui <- fluidPage(     
+ui <- fluidPage(  
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css"),
     tags$meta(name = "viewport", content = "width=1600, initial-scale = 1")
   ),
+  withMathJax(),
   longdiv(h1("Effect size ScrollyTelling: In development..."),
           h4("Rob Cavanaugh", style = "text-align:center"),
            h5("Ph.D Student, University of Pittsburgh", style = "text-align:center"),
@@ -49,12 +50,16 @@ ui <- fluidPage(
                              scrolly_graph(#textOutput("section"),
                                            plotOutput("distPlot")),
                              scrolly_sections(
-                               scrolly_section(id = "1", h3("Why you should care about effect sizes"),
-                                               p(text1)),
+                               scrolly_section(id = "1", h3("Effect sizes in single-case design"),
+                                               p(text1a),
+                                               p(text1b)),
                                scrolly_section(id = "2", h3("Effect Sizes in Aphasiology"),
-                                               p(text2)),
+                                               p(text2a),
+                                               p(text2b)),
                                scrolly_section(id = "3", h3("Standardized Mean Difference"),
-                                               p(SMD1)),
+                                               p(SMD1),
+                                               p(SMD1a),
+                                               h3(SMD_eq)),
                                scrolly_section(id = "4", h3("Standardized Mean Difference"),
                                                p(SMD2)),
                                scrolly_section(id = "5", h3("Non-overlap of All Pairs"),
@@ -180,6 +185,7 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
+      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
       theme_modern(base_size = 14) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
@@ -187,10 +193,14 @@ server <- function(input, output) {
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
             axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto')) + #,
+            axis.title.y = element_text(size = 16, family = 'roboto'),
+            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
+            strip.placement = "outside",
+            strip.background = element_blank(),
+            panel.spacing=unit(0,"cm")) + #,
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .8) +
       ylab('Accuracy') +
-      xlab("Session") 
+      xlab(NULL) 
     else if(t==2) df %>%
       filter(sub_id %in% ls[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
@@ -200,6 +210,7 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
+      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
       theme_modern(base_size = 14) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
@@ -207,10 +218,14 @@ server <- function(input, output) {
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
             axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto')) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .7) +
+            axis.title.y = element_text(size = 16, family = 'roboto'),
+            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
+            strip.placement = "outside",
+            strip.background = element_blank(),
+            panel.spacing=unit(0,"cm"))+ 
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .75) +
       ylab('Accuracy') +
-      xlab("Session") 
+      xlab(NULL) 
     else if(t>2 & t<=13 & t !=5) df %>%
       filter(sub_id %in% ls[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
@@ -220,6 +235,7 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
+      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
       theme_modern(base_size = 14) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
@@ -227,10 +243,14 @@ server <- function(input, output) {
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
             axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto')) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .7) +
+            axis.title.y = element_text(size = 16, family = 'roboto'),
+            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
+            strip.placement = "outside",
+            strip.background = element_blank(),
+            panel.spacing=unit(0,"cm")) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .75) +
       ylab('Accuracy') +
-      xlab("Session") 
+      xlab(NULL) 
     else if(t==5) df %>%
       filter(sub_id %in% ls[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
@@ -240,6 +260,7 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
+      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
       theme_modern(base_size = 14) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
@@ -247,10 +268,14 @@ server <- function(input, output) {
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
             axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto')) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .7) +
+            axis.title.y = element_text(size = 16, family = 'roboto'),
+            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
+            strip.placement = "outside",
+            strip.background = element_blank(),
+            panel.spacing=unit(0,"cm")) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .75) +
       ylab('Accuracy') +
-      xlab("Session") +
+      xlab(NULL) +
       geom_segment(aes(x = 3, y = .1666, xend = 6, yend = .0666), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
       geom_segment(aes(x = 3, y = .1666, xend = 7, yend = .1666), color = 'black',size = .25,

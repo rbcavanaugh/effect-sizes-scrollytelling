@@ -9,7 +9,7 @@ library(RColorBrewer)
 df <- read.csv(here('data', 'session_summary.csv')) %>%
   filter(condition == 1) %>%
   mutate(sub_id = as.factor(sub_id),
-         phase = as.factor(phase)
+         phase = as.factor(ifelse(phase == 0, 'baseline', 'treatment'))
   ) 
 
 # df2 <- df1 %>%
