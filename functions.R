@@ -5,6 +5,9 @@ library(dplyr)
 library(ggplot2)
 library(see)
 library(RColorBrewer)
+library(ggrepel)
+library(latex2exp)
+library(grid)
 
 df <- read.csv(here('data', 'session_summary.csv')) %>%
   filter(condition == 1) %>%
@@ -31,7 +34,9 @@ longdiv <- function(...){
   div(
     ...,
     class = "container",
-    style = "height:90vh; line-height:120vh; padding:20%"
+    style = "padding-top:10%; padding-left:10%, padding-right:10%"
     
   )
 }
+
+

@@ -3,14 +3,19 @@
 body {
   background-color: #B0BEC5 ;
   font-family: 'Roboto', sans-serif;
+  font-size: 16px !important; 
 }
 
 .container-fluid{
   padding: 50px;
 }
 
-.big{
-  font-size: 50px;
+/*.big{
+  font-size: 25px;
+}*/
+
+div.MathJax_Display{
+   text-align: left !important;
 }
 
 .dark {
@@ -24,7 +29,6 @@ body {
 .title {
   text-align: center;
   margin-top: 15%;
-  font-size: 70px;
 }
 
 .subtitle {
@@ -42,9 +46,9 @@ body {
   text-shadow: 2px 2px 14px #24C96B;
 }
 
-.emph{
+/*.emph{
   font-size: 30px;
-}
+}*/
 
 a:hover{
   color: black;
@@ -60,29 +64,29 @@ a:hover{
   position: sticky;
   position: -webkit-sticky;
   padding-right: 50px;
-  padding-top: 100px;
-  top: 100px;
+  padding-top: 5%;
+  top: 10px;
   float: right;
 }
 
 .scrolly-sections {
   width: 40%;
-  padding-left:50px;
+  padding-left:100px;
   padding-top: 50px;
   margin-bottom: 50px;
 }
 
 .scrolly-section {
-  opacity: 0.2;
   margin-bottom: 200px;
+  font-size:1rem;
 }
 
 .scrolly-sections .scrolly-section:last-child {
-  margin-bottom: 20vh;
+  margin-bottom: 10vh;
 }
 
 .graph-scroll-active {
-  opacity: 1;
+  /*opacity: 1;*/
 }
 
 
@@ -101,11 +105,15 @@ a:visited {
     font-size: large;
 }
 
+p {
+  font-size: 1.6rem;
+}
+
 h1 {
     background: #B0BEC5;
     color: black;
     font-family: roboto;
-    font-size: xx-large;
+    font-size: 4rem;
     text-align: center;
 }
 
@@ -113,31 +121,31 @@ h2 {
     background: #B0BEC5;
     color: black;
     font-family: roboto;
-    font-size: x-large;
+    font-size: 2.5rem;
     text-align: center;
-    font-weight: bold;
-    font-style: italic;
 }
 
 h3 {
     background: #B0BEC5;
     color: black;
     font-family: roboto;
-    font-size: x-large;
+    font-size: 3rem;
+    font-face: bold;
 }
 
 h4 {
     background: #B0BEC5;
     color: black;
     font-family: roboto;
-    font-weight: bold;
-    font-size: large;
+    font-size: 2rem;
+    text-align: left;
 }
 
 h5 {
     background: #B0BEC5;
     color: black;
     font-family: roboto;
+    font-size:1.25rem;
 }
 
 h6 {
@@ -146,8 +154,17 @@ h6 {
     font-family: roboto;
     font-style: italic;
 }
+
+code {
+    font-family: Monaco, monospace;
+    font-size: 1.5rem;
+    background-color:rgba(176, 190, 197, .5);
+    color: black;
+    padding: 0.2rem;
+    border-radius: 5px;
+}
 		
-img.toplogo {
+/*img.toplogo {
     width: 4em;
     vertical-align: middle;
 }
@@ -156,6 +173,12 @@ img.arrow {
     width: 30px;
     height: 30px;
     border: 0;
+}*/
+
+img {
+  font-size:10px !important;
+  padding:2%;
+  
 }
 
 span.acronym {

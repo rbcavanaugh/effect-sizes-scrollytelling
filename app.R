@@ -6,6 +6,13 @@
 #
 #    http://shiny.rstudio.com/
 #
+# to do:
+# hard numbers for SMD
+# more plot annotations
+# bigger font for left side
+# more concise paragraphcs
+# name to bottom
+# 'other considerations' section: credible/confidence intervals. other DVs etc.
 
 library(shiny)
 library(scrollytell)
@@ -16,8 +23,6 @@ source('text.R')
 
 # Define UI for application that draws a histogram
 
-
-
 ######################################################################################################
 ############################################## ui ################################################
 ######################################################################################################
@@ -26,94 +31,93 @@ source('text.R')
 ui <- fluidPage(  
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css"),
-    tags$meta(name = "viewport", content = "width=1600, initial-scale = 1")
   ),
   withMathJax(),
   longdiv(h1("Effect size ScrollyTelling: In development..."),
-          h4("Rob Cavanaugh", style = "text-align:center"),
-           h5("Ph.D Student, University of Pittsburgh", style = "text-align:center"),
-           h5("last updated: 9-17-20", style = "text-align:center"),
-          h5(br(),
-             br(),
-             br(),
-             br(),
-             br(),
-             img(src="chevron.png", heigth = "10%", width = "10%"), style = "text-align:center")
-  ),
-  
+          h2("Rob Cavanaugh", style = "text-align:center"),
+          h4("Ph.D Student, University of Pittsburgh", style = "text-align:center")
+          ),
+  div(img(src="chevron.png", heigth = "10%", width = "10%"),
+      style = "text-align:center; opacity:60%; padding:10%"
+      ),
   
   ########################################### scrolly sections ###########################################################                      
-  
-  
   fluidRow(scrolly_container(width = 4,
                               "scr",
-                             scrolly_graph(#textOutput("section"),
-                                           plotOutput("distPlot")),
+                             scrolly_graph(plotOutput("distPlot"), style = "font-size:12px;"),
                              scrolly_sections(
                                scrolly_section(id = "1", h3("Effect sizes in single-case design"),
                                                p(text1a),
                                                p(text1b)),
                                scrolly_section(id = "2", h3("Effect Sizes in Aphasiology"),
                                                p(text2a),
-                                               p(text2b)),
+                                               p(text2b),
+                                               p(text2c)),
                                scrolly_section(id = "3", h3("Standardized Mean Difference"),
                                                p(SMD1),
                                                p(SMD1a),
-                                               h3(SMD_eq)),
+                                               h4(SMD_eq)),
                                scrolly_section(id = "4", h3("Standardized Mean Difference"),
                                                p(SMD2)),
-                               scrolly_section(id = "5", h3("Non-overlap of All Pairs"),
-                                               p(NAP1)),
+                               scrolly_section(id = "5", h3("Standardized Mean Difference"),
+                                               p(SMD3),
+                                               h4(SMD_eq2)),
                                scrolly_section(id = "6", h3("Non-overlap of All Pairs"),
-                                               p(NAP2)),
-                               scrolly_section(id = "7", h3("Tau-U"),
-                                               p(TAU)),
+                                               p(NAP1),
+                                               p(NAP2),
+                                               p(NAP3)),
+                               scrolly_section(id = "7", h3("Non-overlap of All Pairs"),
+                                               p(NAP4)),
                                scrolly_section(id = "8", h3("Tau-U"),
                                                p(TAU)),
-                               scrolly_section(id = "9", h3("Proportion of Potential Maximal Gain"),
-                                               p(PMG1)),
+                               scrolly_section(id = "9", h3("Tau-U"),
+                                               p(TAU1),
+                                               p(TAU2)),
                                scrolly_section(id = "10", h3("Proportion of Potential Maximal Gain"),
-                                               p(PMG2)),
-                               scrolly_section(id = "11", h3("Generalized linear mixed-effects models"),
-                                               p(GLMM1),
-                                               br(),
-                                               p(GLMM2)),
+                                               p(PMG1),
+                                               h4(PMG_eq)),
+                               scrolly_section(id = "11", h3("Proportion of Potential Maximal Gain"),
+                                               p(PMG2),
+                                               p(PMG3)),
                                scrolly_section(id = "12", h3("Generalized linear mixed-effects models"),
-                                               p(GLMM3)),
-                               scrolly_section(id = "13", h3("Bayesian GLMMs"),
+                                               p(GLMM1),
+                                               p(GLMM2),
+                                               code(GLMM_eq)),
+                               scrolly_section(id = "13", h3("Generalized linear mixed-effects models"),
+                                               p(GLMM3),
+                                               p(GLMM4)),
+                               scrolly_section(id = "14", h3("Bayesian GLMMs"),
+                                               p(BMEM1),
+                                               p(BMEM_eq),
+                                               p(BMEM1a)),
+                               scrolly_section(id = "15", h3("Bayesian GLMMs"),
                                                p(BMEM2),
+                                               p(BMEM3),
                                                br(),
-                                               p(BMEM3)),
-                              # br(), # this section is to provide some space
-                               scrolly_section(id = "14", h3(""),
-                                               p(" ")),
-                            )
+                                               br()),
+                            )),
 
-########################################### summary ###########################################################                      
+########################################### summary ###########################################################         
 
-   )),
   div(h3("Summary"),
-    p("Weve walked through six different types of tretment response that effect sizes should be sensitive to. In our larger study, we simulated 100 different participants in this hypothetical treatment study and used concordance correlation coefficients to evaluate the agreement between these different effect size measures across the range of treatment responses."),
+    p("It's clear that these 6 effect sizes each have their own strengths and weaknesses. Knowing that there is no 'gold standard,' we sought to detemine how interchangable these effect size measures are in single case design reserach. To calculate an index of agreement between all measures, we z-scored each effect size measure and and calculated concordance correlation coefficients (Lin 1989)."),
     br(),
-  p(
-    "In the plot below, scatterplots visualize the relationship between standardized effect sizes (lower triangle) and concordance correlation coefficients are visualized by color (upper triangle). Concordance correlation coefficients less than 0.40 are considered poor. Coefficients between 0.40 and 0.75 are considered good to fair. Coefficients greater than 0.75 are considered excellent. Scatterplots also reveal cases where agreement is strong or poor across all effect sizes, increases as effect sizes increase (i.e. heterskedasticity), or the relationship between two different effect size measures is non-linear"
-  ), style="text-align: left;"),
-  br(),
-  br(),
-  div(img(src="shiny_plot.svg", heigth = "50%", width = "50%"), style="text-align: center;"),
+  p("In the plot below, scatterplots visualize the relationship between effect sizes (lower triangle) and concordance correlation coefficients (upper triangle). Concordance correlation coefficients less than 0.40 are considered poor. Coefficients between 0.40 and 0.75 are considered good to fair. Coefficients greater than 0.75 are considered good to excellent. Scatterplots also reveal cases where agreement is inconsistent across effect sizes."
+  ), style="text-align: left; padding-left:10%; padding-right:10%")
+),
+  div(img(src="shiny_plot.svg", heigth = "70%", width = "70%"), style="text-align: center;padding:5%"),
   div(h2(
     style = "text-align:center; face:bold",
     tags$a(href = "https://osf.io/6x5pd/", "Interest piqued? Skeptical? Explore the methods and data here")),
     class = "container",
-    style = "height:40vh; line-height:40vh; padding:20%"),
+    style = "height:40vh; line-height:40vh;padding:5%"),
 
 ########################################### methods ########################################################### 
 
-div(h3("Birefly, the nitty gritty"),
+div(h3("The nitty gritty"),
     p("Data were simulated for 100 hypothetical people with aphasia participating in a multiple baseline study. Each participant reflected performance on 30 treated items at 5 baseline and 10 treatment probe timepoints.Data were simulated using the R package SimStudy (Goldfeld, 2019), following the general modeling approach described by Manolov and Solanas (2008), in which the probability of a given correct response is a function of the baseline slope (β1), level change (β2) between baseline and treatment phases, and slope change (β3) between baseline and treatment phases. Beta-coefficients for the baseline slope, level change, and slope change variables were set at 0.06, 0.3, and 0.15 respectively (Manolov and Solanas, 2008). The intercept, β0, was defined by a normal distribution with a mean of -1.75 and variance of .25, randomly assigned to each time series. Participant level variance was characterized by a uniform distribution between 0 and 2. Item level effects were modeled by adding a term to describe item difficulty, approximating a normal distribution with a variance of 0.6. A logistic link function was used to calculate the probability of a correct response for each participant, item, session, and condition. Binomial responses were probabilistically simulated with a lag-1 autocorrelation of 0.5. A multi-level model recovered the parameteres effectively."),
-p("SMD was calculated per the methods of Busk and Serlin (1992), NAP and Tau-U were calculated per the methods of Parker and Vannest (2011); Tau-U with a correction for baseline trend: Tau UA VS. B – TREND A. PMG was calculated as described by Lambon Ralph and colleagues (2010), but using the final session as post-treatment performance. Effect sizes estimated through GLMM replicated the approach described by Meier (2019). BMEM effect sizes mirrored the approach used by Evans et al (2020)."),
-  style = "text-align:left",
-  style = "padding:10%"),
+p("SMD was calculated per the methods of Busk and Serlin (1992), NAP and Tau-U were calculated per the methods of Parker and Vannest (2009; 2015); Tau-U with a correction for baseline trend: Tau UA VS. B – TREND A. PMG was calculated as described by Lambon Ralph and colleagues (2010), but using the final session as post-treatment performance. Effect sizes estimated through GLMM replicated the approach described by Meier (2019). BMEM effect sizes mirrored the approach used by Evans et al (2020). In the larger study, calculating SMD similar to Beeson & Robey (2006) did not meaningfully change the results."),
+  style = "text-align:left; padding-left:10%; padding-right:10%"),
 
 ########################################### references ########################################################### 
 
@@ -133,9 +137,9 @@ div(h3("Selected References"),
     p("Parker, R. I., Vannest, K. J., Davis, J. L., & Sauber, S. B. (2011). Combining nonoverlap and trend for single-case research: Tau-U. Behavior Therapy, 42(2), 284–299. https://doi.org/10.1016/j.beth.2010.08.006"),
     p("R Core Team. (2020). R: A language and environment for statistical computing (4.0.2). R Foundation for Statistical Computing. https://www.r-project.org/"),
     p("Wiley, R. W., & Rapp, B. (2018). Statistical analysis in Small-N Designs: Using linear mixed-effects modeling for evaluating intervention effectiveness. Aphasiology, 33(1), 1–30. https://doi.org/10.1080/02687038.2018.1454884"),
-    style = "text-align:left",
-    style = "padding:10%"),
-div(p(icon('copyright'), "2020 Robert Cavanaugh"), style = "text-align:center; padding:2%")
+    style = "text-align:left; padding-left:10%; padding-right:10%"),
+div(p(icon('copyright'), "2020 Robert Cavanaugh"),
+    p("last updated: 9-19-20"),style = "text-align:center; padding:5%")
 )
 
 
@@ -162,22 +166,23 @@ server <- function(input, output) {
         t1 = c(31, 34, 12, 15, 51, 56, 57, 84, 93, 99),
         t2 = c(31, 34, 12, 15, 51, 56, 57, 84, 93, 99),
         t3 =  c(51),#SMD
-        t4 =  c(12),#SMD
-        t5  = c(15), #NAP
-        t6  = c(51, 84, 93), #NAP
-        t7 =  c(84), #TAU
-        t8  = c(56, 57), #TAU
-        t9  = c(34), # PMG
-        t10  = c(31, 34), #PMG
-        t11  = c(99), #GLMM
-        t12  = c(84, 99), #GLMMM
-        t13  = c(12) #BMEM
+        t4 =  c(12, 51),#SMD
+        t5 =  c(12, 51),#SMD
+        t6  = c(15), #NAP
+        t7  = c(51, 84, 93), #NAP
+        t8 =  c(84), #TAU
+        t9  = c(56, 57, 84), #TAU
+        t10  = c(34), # PMG
+        t11  = c(31, 34), #PMG
+        t12  = c(99), #GLMM
+        t13  = c(84, 99), #GLMMM
+        t14  = c(12),
+        t13  = c(84, 99) #GLMMM#BMEM
     )
     
-    if(between(t, 1,13)) sel = ls[[t]]
+    if(between(t, 1,15)) sel = ls[[t]]
 
-
-    if(t==1) df %>% # plots all
+    p <- if(t==1) df %>% # plots all
       ggplot(aes(x = session, y = mean_correct, shape = phase, color = sub_id,
                  alpha = ifelse(sub_id %in% sel, 0.975, 0.01))) +
       geom_point(size = 4, shape = 16) +
@@ -185,21 +190,22 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
-      theme_modern(base_size = 14) +
+      theme_modern(base_size = 16) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
             panel.grid.minor = element_blank(), 
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
-            axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto'),
-            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
-            strip.placement = "outside",
-            strip.background = element_blank(),
-            panel.spacing=unit(0,"cm")) + #,
+            axis.title.x = element_text(family = 'roboto'),
+            axis.title.y = element_text(family = 'roboto'),
+            strip.text.x = element_text(family = 'roboto', face = "plain")) +
+            #plot.margin = unit(c(1,1,3,.75), "lines")) + #,
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .8) +
-      ylab('Accuracy') +
+      ylab(NULL) +
+      annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
+               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+      annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
+               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) 
     else if(t==2) df %>%
       filter(sub_id %in% ls[[1]]) %>%
@@ -210,23 +216,23 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
-      theme_modern(base_size = 14) +
+      theme_modern(base_size = 16) + #, fontface="plain", fontfamily = 'roboto')
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
             panel.grid.minor = element_blank(), 
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
-            axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto'),
-            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
-            strip.placement = "outside",
-            strip.background = element_blank(),
-            panel.spacing=unit(0,"cm"))+ 
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .75) +
-      ylab('Accuracy') +
+            axis.title.x = element_text(family = 'roboto'),
+            axis.title.y = element_text(family = 'roboto'),
+            strip.text.x = element_text(family = 'roboto', face = "plain")) + 
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
+      ylab(NULL) +
+      annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
+               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+      annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
+               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) 
-    else if(t>2 & t<=13 & t !=5) df %>%
+    else if(t>2 & t<=15 & t !=5 & t != 4 & t != 6) df %>%
       filter(sub_id %in% ls[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
@@ -235,23 +241,23 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
-      theme_modern(base_size = 14) +
+      theme_modern(base_size = 16) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
             panel.grid.minor = element_blank(), 
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
-            axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto'),
-            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
-            strip.placement = "outside",
-            strip.background = element_blank(),
-            panel.spacing=unit(0,"cm")) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .75) +
-      ylab('Accuracy') +
+            axis.title.x = element_text(family = 'roboto'),
+            axis.title.y = element_text(family = 'roboto'),
+            strip.text.x = element_text(family = 'roboto', face = "plain")) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
+      ylab(NULL) +
+      annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
+               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+      annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
+               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) 
-    else if(t==5) df %>%
+    else if(t==4) df %>%
       filter(sub_id %in% ls[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
@@ -260,117 +266,139 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-      facet_grid(~ phase, space="free_x", scales="free_x", switch="x") +
-      theme_modern(base_size = 14) +
+      theme_modern(base_size = 16) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
             panel.grid.minor = element_blank(), 
             panel.grid.major = element_blank(),
             plot.background = element_rect(fill = "transparent",colour = NA),
-            axis.title.x = element_text(size = 16, family = 'roboto'),
-            axis.title.y = element_text(size = 16, family = 'roboto'),
-            strip.text.x = element_text(size = 16, family = 'roboto', face = "plain"),
-            strip.placement = "outside",
-            strip.background = element_blank(),
-            panel.spacing=unit(0,"cm")) +
-      scale_colour_viridis_d(option = "plasma", begin = 0, end = .75) +
-      ylab('Accuracy') +
+            axis.title.x = element_text(family = 'roboto'),
+            axis.title.y = element_text(family = 'roboto'),
+            strip.text.x = element_text(family = 'roboto', face = "plain")) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
+      ylab(NULL) +
+      annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
+               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+      annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
+               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) +
-      geom_segment(aes(x = 3, y = .1666, xend = 6, yend = .0666), color = 'black',size = .25,
+      annotate(
+        geom = "curve", x = 2.5, y = .5, xend = 3, yend = .25, 
+        curvature = -.6, arrow = arrow(length = unit(3, "mm"), type = 'closed')
+      ) +
+      annotate(geom = "text", x = 3, y = .55, label = "low variability", size = 7, family = 'roboto')
+    else if(t==5) df %>%
+      mutate(mean_correct = ifelse(sub_id == 12 & phase == 'baseline', 0, mean_correct)) %>%
+      filter(sub_id %in% ls[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      geom_point(size = 4, shape = 16) + #, color = tmp
+      geom_line(size = 1.5) + 
+      geom_vline(aes(xintercept = 5.5), alpha = .5) +
+      scale_y_continuous(limits = c(0,1), labels = scales::percent) +
+      scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
+      theme_modern(base_size = 16) +
+      theme(legend.position = 'none',
+            panel.background = element_rect(fill = "transparent",colour = NA), 
+            panel.grid.minor = element_blank(), 
+            panel.grid.major = element_blank(),
+            plot.background = element_rect(fill = "transparent",colour = NA),
+            axis.title.x = element_text(family = 'roboto'),
+            axis.title.y = element_text(family = 'roboto'),
+            strip.text.x = element_text(family = 'roboto', face = "plain")) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
+      ylab(NULL) +
+      annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
+               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+      annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
+               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+      xlab(NULL) +
+      annotate(
+        geom = "curve", x = 8, y = .15, xend = 5.25, yend = 0, 
+        curvature = -.4, arrow = arrow(length = unit(3, "mm"), type = 'closed')
+      ) +
+      annotate(geom = "text", x = 8.5, y = .2, label = "no variability, must pool", size = 7, family = 'roboto', position = "right")
+    else if(t==6) df %>%
+      filter(sub_id %in% ls[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      geom_point(size = 4, shape = 16) + #, color = tmp
+      geom_line(size = 1.5) + 
+      geom_vline(aes(xintercept = 5.5), alpha = .5) +
+      scale_y_continuous(limits = c(0,1), labels = scales::percent) +
+      scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
+      theme_modern(base_size = 16) +
+      theme(legend.position = 'none',
+            panel.background = element_rect(fill = "transparent",colour = NA), 
+            panel.grid.minor = element_blank(), 
+            panel.grid.major = element_blank(),
+            plot.background = element_rect(fill = "transparent",colour = NA),
+            axis.title.x = element_text(family = 'roboto'),
+            axis.title.y = element_text(family = 'roboto'),
+            strip.text.x = element_text(family = 'roboto', face = "plain")) +
+      scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
+      ylab(NULL) +
+      annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
+               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+      annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
+               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+      xlab(NULL) +
+      geom_segment(aes(x = 3.05, y = .1666, xend = 6-.2, yend = .0666), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 7, yend = .1666), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 7-.2, yend = .1666), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 8, yend = .233), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 8-.2, yend = .233), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 9, yend = .166), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 9-.2, yend = .166), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 10, yend = .300), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 10-.2, yend = .300), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 11, yend = .500), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 11-.2, yend = .500), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 12, yend = .6), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 12-.2, yend = .6), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 13, yend = .5), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 13-.2, yend = .5), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 14, yend = .566), color = 'black',size = .25,
+      geom_segment(aes(x = 3.05, y = .1666, xend = 14-.2, yend = .566), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
-      geom_segment(aes(x = 3, y = .1666, xend = 15, yend = .6), color = 'black',size = .25,
-                   arrow = arrow(type = 'closed',length = unit(0.25, "cm")))
+      geom_segment(aes(x = 3.05, y = .1666, xend = 15-.2, yend = .6), color = 'black',size = .25,
+                   arrow = arrow(type = 'closed',length = unit(0.25, "cm")))+
+     annotate(geom = "text", x = 3, y = .28, label = TeX("$\\frac{1+.5+.5}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 2, y = .23, label = TeX("$\\frac{1}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 1, y = .18, label = TeX("$\\frac{1}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 3.5, y = 0.03, label = TeX("$\\frac{0}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 5.28, y = 0.03, label = TeX("$\\frac{0}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
+      geom_label_repel(aes(label = ifelse(sub_id %in% sel & phase == 'treatment' & mean_correct > 4/30 & phase == 'treatment' & mean_correct < 6/30, "T",
+                                          ifelse(sub_id %in% sel & phase == 'treatment' & mean_correct > 5/30, "N",
+                                          ifelse(sub_id %in% sel & phase == 'treatment' & mean_correct < 5/30, "O", "")))),
+                       color = 'black',
+                       size = 6,
+                       family = 'roboto',
+                       nudge_x = .25,
+                       nudge_y = ifelse(df$session == 12, -.2, -.1),
+                       xlim = c(6,NA),
+                       fill = NA) +
+      annotate('text', x = 15, y = 1, label = "N = non-overlap\nO = overlap\nT=tie",
+               size = 6, family = 'roboto',
+               hjust = 'right',
+               vjust = 'top')
     else NULL
+    
+    print(p)
 
   }, bg="transparent")
   
-  # output$img <- renderImage({
-  #   # When input$n is 1, filename is ./images/image1.jpeg
-  #   filename <- normalizePath("fig3_top_8-31.png")
-  #   # Return a list containing the filename
-  #   list(src = filename)
-  # }, deleteFile = FALSE)
   
   output$scr <- renderScrollytell({
     scrollytell()
   })
   
-  #output$section <- renderText(paste0("Section: ", input$scr))
-  
   observe({
     cat("section:", input$scr, "\n")
   })
+
 }
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
-
-
-# # # test =
-# # # 
-# df %>% # plots all
-#   filter(sub_id == 15) %>%
-#   ggplot(aes(x = session, y = mean_correct, shape = phase, color = sub_id)) +
-#   geom_point(size = 2) +
-#   geom_line(size = 1.5) +
-#   geom_vline(aes(xintercept = 5.5), alpha = .5) +
-#   scale_y_continuous(limits = c(0,1), labels = scales::percent) +
-#   scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-#   facet_wrap(~sub_id) +
-#   theme_modern(base_size = 14) +
-#   theme(legend.position = 'none',
-#         panel.background = element_rect(fill = "transparent",colour = NA),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major = element_blank(),
-#         plot.background = element_rect(fill = "transparent",colour = NA),
-#         axis.title.x = element_text(size = 16, family = 'roboto'),
-#         axis.title.y = element_text(size = 16, family = 'roboto')) + #,
-#   # plot.title = element_text(size = 18, family = 'roboto', hjust = 0.5)) +
-#   #scale_color_brewer(palette = "Dark2") +
-#   ylab('Accuracy') +
-#   xlab("Session") +
-#   geom_segment(aes(x = 3, y = .1666, xend = 6, yend = .0666), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 7, yend = .1666), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 8, yend = .233), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 9, yend = .166), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 10, yend = .300), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 11, yend = .500), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 12, yend = .6), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 13, yend = .5), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 14, yend = .566), color = 'black',
-#                arrow = arrow()) +
-#   geom_segment(aes(x = 3, y = .1666, xend = 15, yend = .6), color = 'black',
-#                arrow = arrow())
-#   
-# 
-# 
-# 
-# 
-# df %>% # plots all
-#   filter(sub_id == 15) 
 
