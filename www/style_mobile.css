@@ -1,9 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300');
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   background-color: #B0BEC5 ;
   font-family: 'Roboto', sans-serif;
-  font-size: 16px !important; 
+  font-size: 16px !important;
+  position: relative
 }
 
 .container-fluid{
@@ -59,27 +64,19 @@ a:hover{
 }
 
 .scrolly-graph {
-  margin-left: 40px;
-  width: 60%;
-  max-height: 399px;
+  width: 100%;
   position: sticky;
   position: -webkit-sticky;
-  padding-right: 50px;
-  padding-top: 5%;
+  padding: 5%;
   top: 10px;
-  float: right;
+  float: center;
 }
 
 .scrolly-sections {
-  width: 40%;
-  padding-left:100px;
-  padding-top: 50px;
-  margin-bottom: 50px;
+  width: 100%;
 }
 
 .scrolly-section {
-  margin-bottom: 200px;
-  font-size:1rem;
 }
 
 .scrolly-sections .scrolly-section:last-child {
@@ -107,8 +104,9 @@ a:visited {
 }
 
 p {
-  font-size: 1.6rem;
-  font-family: roboto;
+  font-size: 0.05rem;
+  color: #B0BEC5;
+  background: #B0BEC5;
 }
 
 h1 {
@@ -117,7 +115,6 @@ h1 {
     font-family: roboto;
     font-size: 4rem;
     text-align: center;
-    padding-top: 5%;
 }
 
 h2 {
@@ -130,17 +127,16 @@ h2 {
 
 h3 {
     background: #B0BEC5;
-    color: black;
+    color: #B0BEC5;
     font-family: roboto;
-    font-size: 3rem;
-    font-face: bold;
+    font-size: .8rem;
 }
 
 h4 {
     background: #B0BEC5;
-    color: black;
+    color: #B0BEC5;
     font-family: roboto;
-    font-size: 2rem;
+    font-size: 0.05rem;
     text-align: left;
 }
 
@@ -148,23 +144,23 @@ h5 {
     background: #B0BEC5;
     color: black;
     font-family: roboto;
-    font-size:1.75rem;
+    font-size:1.5rem;
 }
 
 h6 {
     background: #B0BEC5;
     color: black;
     font-family: roboto;
-    font-style: italic;
+    font-size: .5rem;
 }
 
 code {
     font-family: Monaco, monospace;
-    font-size: 1.5rem;
-    background-color:rgba(176, 190, 197, .5);
-    color: black;
-    padding: 0.2rem;
-    border-radius: 5px;
+    font-size: 0.05rem;
+    background-color: #B0BEC5;
+    color: #B0BEC5;
+    padding: 0.001rem;
+    /*border-radius: 5px;*/
 }
 		
 /*img.toplogo {
@@ -181,7 +177,6 @@ img.arrow {
 img {
   font-size:10px !important;
   padding:2%;
-  max-height:398px;
   
 }
 

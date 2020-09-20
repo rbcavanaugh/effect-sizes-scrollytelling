@@ -1,13 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300');
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   background-color: #B0BEC5 ;
   font-family: 'Roboto', sans-serif;
-  font-size: 16px !important; 
+  font-size: 16px !important;
+  position: relative
 }
 
 .container-fluid{
-  padding: 50px;
+  padding: 5px;
 }
 
 /*.big{
@@ -59,26 +64,24 @@ a:hover{
 }
 
 .scrolly-graph {
-  margin-left: 40px;
-  width: 60%;
-  max-height: 399px;
+  width: 50%;
   position: sticky;
+  max-height: 310px;
   position: -webkit-sticky;
-  padding-right: 50px;
-  padding-top: 5%;
-  top: 10px;
+  top: 2px;
   float: right;
 }
 
 .scrolly-sections {
-  width: 40%;
-  padding-left:100px;
-  padding-top: 50px;
-  margin-bottom: 50px;
+  width: 60%;
+  padding-left:5%;
+  margin-left:10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 
 .scrolly-section {
-  margin-bottom: 200px;
+  margin-bottom: 50px;
   font-size:1rem;
 }
 
@@ -163,7 +166,6 @@ code {
     font-size: 1.5rem;
     background-color:rgba(176, 190, 197, .5);
     color: black;
-    padding: 0.2rem;
     border-radius: 5px;
 }
 		
@@ -180,10 +182,13 @@ img.arrow {
 
 img {
   font-size:10px !important;
-  padding:2%;
-  max-height:398px;
-  
+  padding: 0;
+  display: block;
+  margin: 0 auto;
+  max-height: 300px;
+  max-width: 100%;
 }
+
 
 span.acronym {
     font-size: small;

@@ -29,70 +29,73 @@ source('text.R')
 
 
 ui <- fluidPage(  
+  mobileDetect('isMobile'),
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css"),
+    tags$link(rel="stylesheet", media="screen and (max-device-width: 767px)", href="style_mobile2.css")
   ),
   withMathJax(),
   longdiv(h1("Effect size ScrollyTelling: In development..."),
           h2("Rob Cavanaugh", style = "text-align:center"),
-          h4("Ph.D Student, University of Pittsburgh", style = "text-align:center")
+          h5("Ph.D Student, University of Pittsburgh", style = "text-align:center"),
+          h5(htmlOutput('isItMobile'), style = "text-align:center")
           ),
   div(img(src="chevron.png", heigth = "10%", width = "10%"),
       style = "text-align:center; opacity:60%; padding:10%"
       ),
-  
+
   ########################################### scrolly sections ###########################################################                      
   fluidRow(scrolly_container(width = 4,
                               "scr",
-                             scrolly_graph(plotOutput("distPlot"), style = "font-size:12px;"),
+                             scrolly_graph(plotOutput("distPlot")),
                              scrolly_sections(
                                scrolly_section(id = "1", h3("Effect sizes in single-case design"),
-                                               p(text1a),
-                                               p(text1b)),
+                                               p(ls$text1a),
+                                               p(ls$text1b)),
                                scrolly_section(id = "2", h3("Effect Sizes in Aphasiology"),
-                                               p(text2a),
-                                               p(text2b),
-                                               p(text2c)),
+                                               p(ls$text2a),
+                                               p(ls$text2b),
+                                               p(ls$text2c)),
                                scrolly_section(id = "3", h3("Standardized Mean Difference"),
-                                               p(SMD1),
-                                               p(SMD1a),
-                                               h4(SMD_eq)),
+                                               p(ls$SMD1),
+                                               p(ls$SMD1a),
+                                               h4(ls$SMD_eq)),
                                scrolly_section(id = "4", h3("Standardized Mean Difference"),
-                                               p(SMD2)),
+                                               p(ls$SMD2)),
                                scrolly_section(id = "5", h3("Standardized Mean Difference"),
-                                               p(SMD3),
-                                               h4(SMD_eq2)),
+                                               p(ls$SMD3),
+                                               h4(ls$SMD_eq2)),
                                scrolly_section(id = "6", h3("Non-overlap of All Pairs"),
-                                               p(NAP1),
-                                               p(NAP2),
-                                               p(NAP3)),
+                                               p(ls$NAP1),
+                                               p(ls$NAP2),
+                                               p(ls$NAP3)),
                                scrolly_section(id = "7", h3("Non-overlap of All Pairs"),
-                                               p(NAP4)),
+                                               p(ls$NAP4)),
                                scrolly_section(id = "8", h3("Tau-U"),
-                                               p(TAU)),
+                                               p(ls$TAU)),
                                scrolly_section(id = "9", h3("Tau-U"),
-                                               p(TAU1),
-                                               p(TAU2)),
+                                               p(ls$TAU1),
+                                               p(ls$TAU2)),
                                scrolly_section(id = "10", h3("Proportion of Potential Maximal Gain"),
-                                               p(PMG1),
-                                               h4(PMG_eq)),
+                                               p(ls$PMG1),
+                                               h4(ls$PMG_eq)),
                                scrolly_section(id = "11", h3("Proportion of Potential Maximal Gain"),
-                                               p(PMG2),
-                                               p(PMG3)),
+                                               p(ls$PMG2),
+                                               p(ls$PMG3)),
                                scrolly_section(id = "12", h3("Generalized linear mixed-effects models"),
-                                               p(GLMM1),
-                                               p(GLMM2),
-                                               code(GLMM_eq)),
+                                               p(ls$GLMM1),
+                                               p(ls$GLMM2),
+                                               code(ls$GLMM_eq)),
                                scrolly_section(id = "13", h3("Generalized linear mixed-effects models"),
-                                               p(GLMM3),
-                                               p(GLMM4)),
+                                               p(ls$GLMM3),
+                                               p(ls$GLMM4)),
                                scrolly_section(id = "14", h3("Bayesian GLMMs"),
-                                               p(BMEM1),
-                                               p(BMEM_eq),
-                                               p(BMEM1a)),
+                                               p(ls$BMEM1),
+                                               p(ls$BMEM_eq),
+                                               p(ls$BMEM1a)),
                                scrolly_section(id = "15", h3("Bayesian GLMMs"),
-                                               p(BMEM2),
-                                               p(BMEM3),
+                                               p(ls$BMEM2),
+                                               p(ls$BMEM3),
                                                br(),
                                                br()),
                             )),
@@ -139,7 +142,7 @@ div(h3("Selected References"),
     p("Wiley, R. W., & Rapp, B. (2018). Statistical analysis in Small-N Designs: Using linear mixed-effects modeling for evaluating intervention effectiveness. Aphasiology, 33(1), 1–30. https://doi.org/10.1080/02687038.2018.1454884"),
     style = "text-align:left; padding-left:10%; padding-right:10%"),
 div(p(icon('copyright'), "2020 Robert Cavanaugh"),
-    p("last updated: 9-19-20"),style = "text-align:center; padding:5%")
+    h6("last updated: 9-19-20"),style = "text-align:center; padding:5%")
 )
 
 
@@ -153,10 +156,12 @@ div(p(icon('copyright'), "2020 Robert Cavanaugh"),
 # Define server logic required to draw a histogram   input$scr
 server <- function(input, output) {
   
-  # df_reactive <- reactive(
-  #   df %>%
-  #     filter()
-  # )
+    output$isItMobile <- renderText({
+      ifelse(input$isMobile, "Recommend viewing in landscape on mobile", "")
+    })
+  
+
+    ############# This is for the plots.... ########################
   
   output$distPlot <- renderPlot({
     
@@ -190,7 +195,7 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-      theme_modern(base_size = 16) +
+      theme_modern(base_size = 12) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
             panel.grid.minor = element_blank(), 
@@ -216,7 +221,7 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-      theme_modern(base_size = 16) + #, fontface="plain", fontfamily = 'roboto')
+      theme_modern(base_size = 12) + #, fontface="plain", fontfamily = 'roboto')
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
             panel.grid.minor = element_blank(), 
@@ -241,7 +246,7 @@ server <- function(input, output) {
       geom_vline(aes(xintercept = 5.5), alpha = .5) +
       scale_y_continuous(limits = c(0,1), labels = scales::percent) +
       scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
-      theme_modern(base_size = 16) +
+      theme_modern(base_size = 12) +
       theme(legend.position = 'none',
             panel.background = element_rect(fill = "transparent",colour = NA), 
             panel.grid.minor = element_blank(), 
@@ -317,7 +322,7 @@ server <- function(input, output) {
         geom = "curve", x = 8, y = .15, xend = 5.25, yend = 0, 
         curvature = -.4, arrow = arrow(length = unit(3, "mm"), type = 'closed')
       ) +
-      annotate(geom = "text", x = 8.5, y = .2, label = "no variability, must pool", size = 7, family = 'roboto', position = "right")
+      annotate(geom = "text", x = 8.5, y = .2, label = "no variability, must pool", size = 7, family = 'roboto')
     else if(t==6) df %>%
       filter(sub_id %in% ls[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
@@ -386,16 +391,13 @@ server <- function(input, output) {
     
     print(p)
 
-  }, bg="transparent")
+  }, bg="transparent", height = "auto")
   
   
   output$scr <- renderScrollytell({
     scrollytell()
   })
   
-  observe({
-    cat("section:", input$scr, "\n")
-  })
 
 }
 
