@@ -460,16 +460,16 @@ server <- function(input, output) {
 # Run the application
 shinyApp(ui = ui, server = server)
 
-
+set.seed(1)
 sub = sample.int(100, 20, replace = F)
 
 
 p <- df %>% # plots all
   filter(sub_id %in% sub) %>%
-  ggplot(aes(x = session, y = mean_correct, shape = phase, color = sub_id)) +
-  geom_point(size = 4, shape = 16) + #, color = tmp
-  geom_line(size = 1.5) +
-  geom_vline(aes(xintercept = 5.5), alpha = .5) +
+  ggplot(aes(x = session, y = mean_correct, color = sub_id)) +
+  geom_point(size = 3, shape = 16) + #, color = tmp
+  geom_line(size = 1) +
+  geom_vline(aes(xintercept = 5.5)) +
   scale_y_continuous(limits = c(0,1), labels = scales::percent) +
   scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)) +
   theme_void() + #, fontface="plain", fontfamily = 'roboto')
@@ -481,9 +481,10 @@ p <- df %>% # plots all
   scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
   ylab(NULL) +
   xlab(NULL)+
-  transition_reveal(session) +
-  exit_shrink()
+  transition_reveal(session)
 
+animate(p, nframes = 50, fps = 7, start_pause = 5, end_pause = 5,
+        renderer = gifski_renderer())
 
 anim_save(here("www", "outfile2.gif"),
           animate(p, nframes = 120, duration = 10, end_pause = 30,

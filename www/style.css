@@ -4,13 +4,11 @@ body {
   background-color: #B0BEC5 ;
   font-family: 'Roboto', sans-serif;
   font-size: 16px !important; 
- /* background-image: url(/outfile2.gif);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: 80%;*/
 }
 
-
+html {
+  scroll-behavior: smooth;
+}
 
 .demo_wrap {
     position: relative center;
@@ -51,17 +49,6 @@ body {
     height: auto;
     opacity: 0.33;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
