@@ -2,25 +2,26 @@
 
 ls <- list()
 # p1 ####
-ls$text1a <- "Single-case designs are commin aphasia research. They can be more cost-effective than larger trials, they can alleviate concerns with statistical power and they can provide a close look at individual differences in treatment response"
+ls$text1a <- "Single-case designs are common aphasia research. They can be more cost-effective than larger trials while providing a close look at individual differences in treatment response"
 
-ls$text1b <- "Treatment effect sizes are an essential to single-case design research. They describe the magnitude of treatment response. Effect sizes are help to validate the clinical relevance of treatment. They are also used as dependent variables in studies evaluating predictors of treatment response."
+ls$text1b <- "Effect sizes describe the magnitude of treatment response and are essential to single-case design research. They can validate the clinical relevance of treatment. They are used as dependent variables in studies predicting treatment response. In both cases, effect size accuracy and precision is important"
 
 # p2 ####
-ls$text2a <- "However, estimating effect sizes in aphasia single-case designs can be challenging. Response to intervention is often varied and noisy. Repeated probes often result in baseline trends in performance."
+ls$text2a <- "However, estimating effect sizes in aphasia single-case designs can be challenging. Response to treatment is noisy and variable. Baseline performancae is not always stable, masking treatment effects. Effect sizes are not likely to be equal in their ability to describe the magnitude of change"
+
 
 ls$text2b <- "In this study, we set out to compare the effect size measures used in aphasia signle-case design reserach. First, we simulated performance for 100 hypothetical participants with aphasia during a multiple-baseline anomia study. Then, we derived effect sizes using 6 measures used in the aphasia single-case design literature. Last, we calculated the agreement between these measures."
 
 ls$text2c <- "This vignette provides a brief walk-through of each measure and summarizes the results of our findings." 
 
 # SMD ####
-ls$SMD1 <- "Standardized mean difference and it's variant published by Beeson & Robey (2006) is commonly used in aphasia single-case reserach."
+ls$SMD1 <- "Standardized mean difference (Busk & Serlin, 1992) and it's variant published by Beeson & Robey (2006) is commonly used in aphasia single-case reserach."
 
-ls$SMD1a <- 'SMD represents the difference in average performance between two time points divided by the amount of variability during baseline. SMD assumes that observations (i.e. probe sessions) are mutually independent and variability is present and constant within the baseline phase. It is typically interpreted based on established benchmarks in terms of “small,” “medium,” and “large."'
+ls$SMD1a <- 'SMD is the difference in average performance between treatment (or post-treatment) and baseline divided by the variability during baseline. It is typically interpreted based on established benchmarks in terms of “small,” “medium,” and “large."'
 
-ls$SMD2 <- "However, SMD is highly influenced by the variability in baseline performance. Increasingly small variability in baseline performance can inflate SMD. SMD is often applied to binomially distributed data, where the mean and standard deviation are related, which introduces bias dependent on the level of baseline performance. Also, observations are rarely independent and SMD can be biased by autocorrelation. Last, SMD benchmarks vary across target behaviors and experimental designs and must be established prior to interpreting SMD."
+ls$SMD2 <- "Intuitively, SMD is highly influenced by the variability in baseline performance. However, the degree to which this is the case can be startling."
 
-ls$SMD3 <- "When the baseline variability approaches zero, researchers often use the pooled variance between baseline and treatment even though variability is unlikely to be constant over treatment and established benchmarks may or may not have used this pooling approach."
+ls$SMD3 <- "When the baseline variability approaches zero, one option is to pool variance between baseline and treatment phases. But variability may not be even across time - it's not clear we should do so"
 
 ls$SMD_eq <- "\\[{smd} = \\frac{\\bar{x}_{treatment}-\\bar{x}_{baseline}}{\\sigma_{baseline}}\\]"
 ls$SMD_eq2 <- "\\[{smd} = \\frac{\\bar{x}_{treatment}-\\bar{x}_{baseline}}{\\sigma_{pooled}}\\]"

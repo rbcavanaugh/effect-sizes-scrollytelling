@@ -4,7 +4,66 @@ body {
   background-color: #B0BEC5 ;
   font-family: 'Roboto', sans-serif;
   font-size: 16px !important; 
+ /* background-image: url(/outfile2.gif);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 80%;*/
 }
+
+
+
+.demo_wrap {
+    position: relative center;
+    overflow: hidden;
+    /*padding: 5px;*/
+    height: 40vh;
+}
+.demo_wrap h1 {
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
+    position: relative;
+    z-index: 2;
+}
+
+.demo_wrap h2 {
+    /*padding: 100px;
+    position: relative;
+    font-size: 2.5rem;
+    text-align: center;*/
+    z-index: 1;
+}
+
+.demo_wrap h5 {
+    /*padding: 100px;
+    position: relative;
+    font-size: 2.5rem;*/
+    text-align: center;
+    z-index: 1;
+    
+}
+
+.demo_wrap img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0.33;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .container-fluid{
   padding: 50px;
@@ -112,7 +171,7 @@ p {
 }
 
 h1 {
-    background: #B0BEC5;
+    background: transparent;
     color: black;
     font-family: roboto;
     font-size: 4rem;
@@ -121,7 +180,7 @@ h1 {
 }
 
 h2 {
-    background: #B0BEC5;
+    background: transparent;
     color: black;
     font-family: roboto;
     font-size: 2.5rem;
@@ -145,7 +204,7 @@ h4 {
 }
 
 h5 {
-    background: #B0BEC5;
+    background: transparent;
     color: black;
     font-family: roboto;
     font-size:1.75rem;
@@ -179,9 +238,11 @@ img.arrow {
 }*/
 
 img {
-  font-size:10px !important;
+  /*font-size:10px !important;*/
   padding:2%;
-  max-height:398px;
+  /*max-height:398px;*/
+  max-width: 100%;
+  height: auto;
   
 }
 

@@ -5,8 +5,8 @@ account: rb-cavanaugh
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2796927
-bundleId: 3649997
+bundleId: 3668760
 url: https://rb-cavanaugh.shinyapps.io/scrollytell/
-when: 1600641554.91267
+when: 1601008167.77063
 asMultiple: FALSE
 asStatic: FALSE

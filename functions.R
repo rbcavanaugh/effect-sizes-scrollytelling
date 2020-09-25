@@ -8,6 +8,9 @@ library(RColorBrewer)
 library(ggrepel)
 library(latex2exp)
 library(grid)
+library(gganimate)
+library(gifski)
+
 
 df <- read.csv(here('data', 'session_summary.csv')) %>%
   filter(condition == 1) %>%
@@ -34,7 +37,7 @@ longdiv <- function(...){
   div(
     ...,
     class = "container",
-    style = "padding-top:10%; padding-left:10%, padding-right:10%"
+    style = "width = 100%; opacity:.8; background:#B0BEC5;height = 100vh" #padding-top:10%; padding-left:10%, padding-right:10%;"
     
   )
 }

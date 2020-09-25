@@ -20,7 +20,7 @@ library(curl)
 
 source('functions.R')
 source('text.R')
-
+options(gganimate.dev_args = list(bg = 'transparent'))
 # Define UI for application that draws a histogram
 
 ######################################################################################################
@@ -35,19 +35,24 @@ ui <- fluidPage(
     tags$link(rel="stylesheet", media="screen and (max-device-width: 767px)", href="style_mobile2.css")
   ),
   withMathJax(),
-  longdiv(h1("Effect size ScrollyTelling: In development..."),
-          h2("Rob Cavanaugh", style = "text-align:center"),
-          h5("Ph.D Student, University of Pittsburgh", style = "text-align:center"),
-          h5(htmlOutput('isItMobile'), style = "text-align:center")
+  div(class="demo_wrap",
+          h1("Effect size ScrollyTelling: In development..."),
+          h2("Rob Cavanaugh"),
+          h5("Ph.D Student, University of Pittsburgh"),
+          h5(htmlOutput('isItMobile'), style = "text-align:center"),
+          img(src = "outfile2.gif"),
           ),
+  br(),
+  br(),
   div(img(src="chevron.png", heigth = "10%", width = "10%"),
       style = "text-align:center; opacity:60%; padding:10%"
       ),
 
+
   ########################################### scrolly sections ###########################################################                      
   fluidRow(scrolly_container(width = 4,
                               "scr",
-                             scrolly_graph(plotOutput("distPlot")),
+                             scrolly_graph(imageOutput("distPlot")),
                              scrolly_sections(
                                scrolly_section(id = "1", h3("Effect sizes in single-case design"),
                                                p(ls$text1a),
@@ -151,9 +156,6 @@ div(p(icon('copyright'), "2020 Robert Cavanaugh"),
 ############################################## server ################################################
 ######################################################################################################
 
-
-
-# Define server logic required to draw a histogram   input$scr
 server <- function(input, output) {
   
     output$isItMobile <- renderText({
@@ -163,11 +165,11 @@ server <- function(input, output) {
 
     ############# This is for the plots.... ########################
   
-  output$distPlot <- renderPlot({
+  output$distPlot <- renderImage({
     
     t = as.numeric(input$scr) # defines what plot we want....(what section we're on)
     
-    ls <- list(
+    ls2 <- list(
         t1 = c(31, 34, 12, 15, 51, 56, 57, 84, 93, 99),
         t2 = c(31, 34, 12, 15, 51, 56, 57, 84, 93, 99),
         t3 =  c(51),#SMD
@@ -185,9 +187,12 @@ server <- function(input, output) {
         t13  = c(84, 99) #GLMMM#BMEM
     )
     
-    if(between(t, 1,15)) sel = ls[[t]]
+    if(between(t, 1,15)) sel = ls2[[t]]
 
-    p <- if(t==1) df %>% # plots all
+    outfile2 <- tempfile(fileext='.gif')
+    outfile <- tempfile(fileext='.png')
+    
+    p <- if(isTruthy(t==1)) df %>% # plots all
       ggplot(aes(x = session, y = mean_correct, shape = phase, color = sub_id,
                  alpha = ifelse(sub_id %in% sel, 0.975, 0.01))) +
       geom_point(size = 4, shape = 16) +
@@ -208,12 +213,12 @@ server <- function(input, output) {
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .8) +
       ylab(NULL) +
       annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
-               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'right', fontface = "italic") +
       annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
-               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) 
-    else if(t==2) df %>%
-      filter(sub_id %in% ls[[1]]) %>%
+    else if(isTruthy(t==2)) df %>%
+      filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id)) +
       geom_point(size = 4, shape = 16) + #, color = tmp
@@ -233,12 +238,12 @@ server <- function(input, output) {
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
       ylab(NULL) +
       annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
-               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'right', fontface = "italic") +
       annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
-               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) 
-    else if(t>2 & t<=15 & t !=5 & t != 4 & t != 6) df %>%
-      filter(sub_id %in% ls[[1]]) %>%
+    else if(isTruthy(t>2 & t<=15 & t !=5 & t != 4 & t != 6)) df %>%
+      filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       geom_point(size = 4, shape = 16) + #, color = tmp
@@ -258,12 +263,12 @@ server <- function(input, output) {
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
       ylab(NULL) +
       annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
-               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'right', fontface = "italic") +
       annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
-               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) 
-    else if(t==4) df %>%
-      filter(sub_id %in% ls[[1]]) %>%
+    else if(isTruthy(t==4)) df %>%
+      filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       geom_point(size = 4, shape = 16) + #, color = tmp
@@ -283,18 +288,20 @@ server <- function(input, output) {
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
       ylab(NULL) +
       annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
-               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'right', fontface = "italic") +
       annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
-               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) +
       annotate(
         geom = "curve", x = 2.5, y = .5, xend = 3, yend = .25, 
         curvature = -.6, arrow = arrow(length = unit(3, "mm"), type = 'closed')
       ) +
-      annotate(geom = "text", x = 3, y = .55, label = "low variability", size = 7, family = 'roboto')
-    else if(t==5) df %>%
+      annotate(geom = "text", x = 3, y = .55, label = "low variability", size = 4, family = 'roboto')+
+      annotate(geom = "text", x = 15, y = .85, label = "SMD = 16.8", size = 4, family = 'roboto', hjust = "right", color = "navy")+
+      annotate(geom = "text", x = 15, y = .42, label = "SMD = 3.2", size = 4, family = 'roboto', hjust = "right", color = "darkmagenta")
+    else if(isTruthy(t==5)) df %>%
       mutate(mean_correct = ifelse(sub_id == 12 & phase == 'baseline', 0, mean_correct)) %>%
-      filter(sub_id %in% ls[[1]]) %>%
+      filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       geom_point(size = 4, shape = 16) + #, color = tmp
@@ -314,17 +321,17 @@ server <- function(input, output) {
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
       ylab(NULL) +
       annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
-               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'right', fontface = "italic") +
       annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
-               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) +
       annotate(
         geom = "curve", x = 8, y = .15, xend = 5.25, yend = 0, 
         curvature = -.4, arrow = arrow(length = unit(3, "mm"), type = 'closed')
       ) +
-      annotate(geom = "text", x = 8.5, y = .2, label = "no variability, must pool", size = 7, family = 'roboto')
-    else if(t==6) df %>%
-      filter(sub_id %in% ls[[1]]) %>%
+      annotate(geom = "text", x = 8.5, y = .2, label = "no variability, must pool", size = 4, family = 'roboto')
+    else if(isTruthy(t==6)) df %>%
+      filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       geom_point(size = 4, shape = 16) + #, color = tmp
@@ -344,9 +351,9 @@ server <- function(input, output) {
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .6) +
       ylab(NULL) +
       annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
-               size = 6, family = 'roboto', hjust = 'right', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'right', fontface = "italic") +
       annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
-               size = 6, family = 'roboto', hjust = 'left', fontface = "italic") +
+               size = 4, family = 'roboto', hjust = 'left', fontface = "italic") +
       xlab(NULL) +
       geom_segment(aes(x = 3.05, y = .1666, xend = 6-.2, yend = .0666), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
@@ -368,30 +375,43 @@ server <- function(input, output) {
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm"))) +
       geom_segment(aes(x = 3.05, y = .1666, xend = 15-.2, yend = .6), color = 'black',size = .25,
                    arrow = arrow(type = 'closed',length = unit(0.25, "cm")))+
-     annotate(geom = "text", x = 3, y = .28, label = TeX("$\\frac{1+.5+.5}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
-      annotate(geom = "text", x = 2, y = .23, label = TeX("$\\frac{1}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
-      annotate(geom = "text", x = 1, y = .18, label = TeX("$\\frac{1}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
-      annotate(geom = "text", x = 3.5, y = 0.03, label = TeX("$\\frac{0}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
-      annotate(geom = "text", x = 5.28, y = 0.03, label = TeX("$\\frac{0}{10}$", output = 'character'), size = 5, family = 'roboto', parse = T) +
-      geom_label_repel(aes(label = ifelse(sub_id %in% sel & phase == 'treatment' & mean_correct > 4/30 & phase == 'treatment' & mean_correct < 6/30, "T",
+     annotate(geom = "text", x = 3, y = .28, label = TeX("$\\frac{1+.5+.5}{10}$", output = 'character'),
+              size = 4, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 2, y = .23, label = TeX("$\\frac{1}{10}$", output = 'character'),
+               size = 4, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 1, y = .18, label = TeX("$\\frac{1}{10}$", output = 'character'),
+               size = 4, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 3.5, y = 0.03, label = TeX("$\\frac{0}{10}$", output = 'character'),
+               size = 4, family = 'roboto', parse = T) +
+      annotate(geom = "text", x = 5.28, y = 0.03, label = TeX("$\\frac{0}{10}$", output = 'character'),
+               size = 4, family = 'roboto', parse = T) +
+      geom_label_repel(aes(label = ifelse(sub_id %in% sel & phase == 'treatment' & mean_correct > 4/30 &
+                                            phase == 'treatment' & mean_correct < 6/30, "T",
                                           ifelse(sub_id %in% sel & phase == 'treatment' & mean_correct > 5/30, "N",
                                           ifelse(sub_id %in% sel & phase == 'treatment' & mean_correct < 5/30, "O", "")))),
                        color = 'black',
-                       size = 6,
+                       size = 4,
                        family = 'roboto',
                        nudge_x = .25,
                        nudge_y = ifelse(df$session == 12, -.2, -.1),
                        xlim = c(6,NA),
                        fill = NA) +
       annotate('text', x = 15, y = 1, label = "N = non-overlap\nO = overlap\nT=tie",
-               size = 6, family = 'roboto',
+               size = 4, family = 'roboto',
                hjust = 'right',
                vjust = 'top')
     else NULL
     
-    print(p)
+     ggsave(filename = here("www", "outfile.png"), plot = p, bg = "transparent", device = "png",
+                height = 4.5, width = 6, units = 'in', dpi = 150)
+     unlink(p)
+    
+    
+      list(src = "www/outfile.png",
+                     contentType = 'image/svg',
+                     alt = "This is also alternate text")
 
-  }, bg="transparent", height = "auto")
+  },  deleteFile = F) #bg="transparent",
   
   
   output$scr <- renderScrollytell({
@@ -403,4 +423,3 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
