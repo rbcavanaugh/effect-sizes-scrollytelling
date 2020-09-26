@@ -51,7 +51,10 @@ ui <- fluidPage(
       style = "text-align:center; opacity:60%; padding:10%",
       type = "button"
       ),
-
+  longdiv(
+      h2("Effect sizes in Aphasia single-case design", style = "text-align: center; padding-bottom: 3%"),
+      p(ls$text1a, style = 'text-align: center;')
+  ),
 
   ########################################### scrolly sections ###########################################################                      
   fluidRow(scrolly_container(width = 4,
@@ -59,12 +62,11 @@ ui <- fluidPage(
                              scrolly_graph(imageOutput("distPlot")),
                              scrolly_sections(
                                scrolly_section(id = "1", h3("Effect sizes in single-case design"),
-                                               p(ls$text1a),
-                                               p(ls$text1b)),
-                               scrolly_section(id = "2", h3("Effect Sizes in Aphasiology"),
                                                p(ls$text2a),
                                                p(ls$text2b),
                                                p(ls$text2c)),
+                               scrolly_section(id = "2", h3("Effect Sizes in Aphasiology"),
+                                               p("Some notes about this data")),
                                scrolly_section(id = "3", h3("Standardized Mean Difference"),
                                                p(ls$SMD1),
                                                p(ls$SMD1a),
@@ -115,7 +117,7 @@ ui <- fluidPage(
     p("It's clear that these 6 effect sizes each have their own strengths and weaknesses. Knowing that there is no 'gold standard,' we sought to detemine how interchangable these effect size measures are in single case design reserach. To calculate an index of agreement between all measures, we z-scored each effect size measure and and calculated concordance correlation coefficients (Lin 1989)."),
     br(),
   p("In the plot below, scatterplots visualize the relationship between effect sizes (lower triangle) and concordance correlation coefficients (upper triangle). Concordance correlation coefficients less than 0.40 are considered poor. Coefficients between 0.40 and 0.75 are considered good to fair. Coefficients greater than 0.75 are considered good to excellent. Scatterplots also reveal cases where agreement is inconsistent across effect sizes."
-  ), style="text-align: left; padding-left:10%; padding-right:10%")
+  ), style="text-align: left; padding-left:10%; padding-right:10%; padding-top:10%")
 ),
   div(img(src="shiny_plot.svg", heigth = "70%", width = "70%"), style="text-align: center;padding:5%"),
   div(h2(
@@ -210,10 +212,7 @@ server <- function(input, output) {
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
-      geom_bracket(inherit.aes = F, xmin = 6, xmax = 15, y.position = .75,
-                   label = "bar(x)[treatment]", label.size = 4.5, type = 'expression') +
-      geom_bracket(inherit.aes = F, xmin = 1, xmax = 5, y.position = .45,
-                   label = "bar(x)[baseline]", label.size = 4.5, type = 'expression')
+      theme_smd1()
     else if(isTruthy(t==4)) df %>% #SMD 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
@@ -233,17 +232,110 @@ server <- function(input, output) {
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_nap()
-    # else if(isTruthy(t==7)) df %>% # NAP 1
-    #   filter(sub_id %in% ls2[[1]]) %>%
-    #   ggplot(aes(x = session, y = mean_correct, shape = phase,
-    #              color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
-    #   theme_scrolly() +
-    #   theme_nap()
-    else if(isTruthy(t>2 & t<=15 & t !=5 & t !=3 & t != 4 & t != 6)) df %>%
+    else if(isTruthy(t==7)) df %>% # NAP 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
-      theme_scrolly()
+      theme_scrolly() +
+      theme_nap2()
+    else if(isTruthy(t==8)) df %>% # tau 1
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      theme_scrolly() +
+      theme_tau1()
+    else if(isTruthy(t==9)) df %>% # tau 2
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      theme_scrolly() +
+      theme_tau2()
+    else if(isTruthy(t==10)) df %>% # pmg 1
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      theme_scrolly() +
+      theme_pmg1()
+    else if(isTruthy(t==11)) df %>% # pmg 2
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      theme_scrolly() +
+      theme_pmg2()
+    else if(isTruthy(t==12)) df %>% # glmm 1
+      filter(sub_id %in% ls2[[1]]) %>%
+      # mutate(preds = ifelse(sub_id == 84, NA, preds),
+      #        lci = ifelse(sub_id == 84, NA, lci),
+      #        uci = ifelse(sub_id == 84, NA, uci)) %>%
+      ggplot(aes(x = session, y = mean_correct, #shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
+      theme_scrolly() +
+      geom_ribbon(data = df %>% filter(sub_id == 99),
+                  aes(x = session, ymin = lci, ymax = uci),  alpha = .2, linetype = 0,) + #linetype = 0,
+      geom_line(data = df %>% filter(sub_id == 99),
+                aes(y = preds, x = session),size = .75)
+    else if(isTruthy(t==13)) df %>% # glmm 1
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, #shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
+      theme_scrolly() +
+      geom_ribbon(data = df %>% filter(sub_id == 84 | sub_id == 99),
+                  aes(x = session, ymin = lci, ymax = uci),  alpha = .1, linetype = 0,) + #
+      geom_line(data = df %>% filter(sub_id == 99),
+                aes(y = preds, x = session),size = .75) +
+      annotate(geom = "text", x = 6, y = .85,
+               label = "Magenta = 1.40x/session", size = 5, family = 'roboto', hjust = "left",
+               color = "violetred3") +
+      annotate(geom = "text", x = 9, y = .35,
+             label = "Orange: 1.45x/session", size = 5, family = 'roboto', hjust = "left",
+             color = "orangered3")
+    else if(isTruthy(t==14)) df %>% # glmm 1
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
+      theme_scrolly() +
+      geom_smooth(data = df %>% filter(sub_id == 12), method = "lm", se = FALSE, formula = y~x) +
+      annotate(geom = 'segment', x = 5, xend = 6.02, y = .23, yend = .39, size = .75, color = 'darkblue',
+               linetype = 'dashed') +
+      annotate(geom = "text", x = 1, y = .15,
+               label = TeX('$\\beta_1: BaselineSlope$', output = 'character'),
+               size = 5, family = 'roboto', hjust = "left",
+               color = "darkblue", parse = T,fontface = "bold")  + 
+      annotate("segment", x = 7.5, y = 0.2, xend = 5.7, yend = .32,
+               color = 'darkblue',
+               arrow = arrow(ends = 'last', type = 'closed',length = unit(0.25, "cm"))) + 
+      annotate(geom = "text", x = 7.7, y = .2,
+               label = TeX('$\\beta_2: LevelChange$', output = 'character'),
+               size = 5, family = 'roboto', hjust = "left",
+               color = "darkblue", parse = T, fontface = "bold")   + 
+      annotate("segment", x = 6, y = 0.39, xend = 14.5, yend = .42,
+               color = 'darkblue')  + 
+      annotate("segment", x = 11.5, y = 0.64, xend = 11.5, yend = .42,
+               color = 'darkblue',
+               arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))) +
+      annotate(geom = "text", x = 9, y = .37,
+               label = TeX('$\\beta_3: SlopeChange$', output = 'character'),
+               size = 5, family = 'roboto', hjust = "left",
+               color = "darkblue", parse = T, fontface = "bold") +
+      annotate("segment", x = 5, y = 0.255, xend = 5, yend = .81,
+               color = 'red', arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm")))+
+      annotate(geom = "text", x = 1, y = .85,
+               label = "difference between\nposterior samples:\n+16 words",
+               size = 4, family = 'roboto', hjust = "left",
+               color = "red") +
+      annotate(geom = 'segment', x = 5, xend = 15, y = .82, yend = .82, size = .75, color = 'darkblue',
+               linetype = 'dotted')
+    else if(isTruthy(t==15)) df %>%
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      theme_scrolly() + 
+      annotate(geom = "text", x = 6, y = .85,
+               label = "Magenta = +17.5 words", size = 5, family = 'roboto', hjust = "left",
+               color = "violetred3") +
+      annotate(geom = "text", x = 9, y = .35,
+               label = "Orange: +19.5 words", size = 5, family = 'roboto', hjust = "left",
+               color = "orangered3")
     else NULL
     
     # temporary output file output

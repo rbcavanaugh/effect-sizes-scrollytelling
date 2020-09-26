@@ -11,18 +11,35 @@ library(grid)
 library(gganimate)
 library(gifski)
 library(ggpubr)
+library(lme4)
+library(sjPlot)
 
+
+logit2prob <- function(logit){
+  odds <- exp(logit)
+  prob <- odds / (1 + odds)
+  return(prob)
+}
+
+df99 <- read_csv(here('data', 'boot99.csv')) %>%
+  mutate_at(2:4, .funs = logit2prob) %>%
+  mutate(session = seq(1,15,1),
+         sub_id = as.factor(99)) %>%
+  select(-X1) 
+
+df84 <- read_csv(here('data', 'preds84.csv')) %>%
+  mutate_at(2:4, .funs = logit2prob) %>%
+  mutate(session = seq(1,15,1),
+         sub_id = as.factor(84)) %>%
+  select(-X1) 
+
+dfpreds <- bind_rows(df99, df84)
 
 df <- read.csv(here('data', 'session_summary.csv')) %>%
   filter(condition == 1) %>%
   mutate(sub_id = as.factor(sub_id),
-         phase = as.factor(ifelse(phase == 0, 'baseline', 'treatment'))
-  ) 
-
-# df2 <- df1 %>%
-#   mutate(new_id = 0)
-# 
-# df <- bind_rows(df1, df2)
+         phase = as.factor(ifelse(phase == 0, 'baseline', 'treatment'))) %>%
+  left_join(dfpreds, by = c('session', 'sub_id'))
 
 colr <- scales::hue_pal()(6)
 
@@ -38,7 +55,7 @@ longdiv <- function(...){
   div(
     ...,
     class = "container",
-    style = "width = 100%; opacity:.8; background:#B0BEC5;height = 100vh" #padding-top:10%; padding-left:10%, padding-right:10%;"
+    style = "height = 80vh; width:80%; margin: auto; padding: 10%;" #padding-top:10%; padding-left:10%, padding-right:10%;"
     
   )
 }
@@ -136,6 +153,93 @@ theme_nap <- function() {
   )
 }
 
+theme_nap2 <- function(){
+  list(
+    annotate(geom = "text", x = 12, y = .85,
+           label = "NAP = 1", size = 5, family = 'roboto', hjust = "left",
+           color = "violetred3"),
+    annotate(geom = "text", x = 12, y = .5,
+             label = "NAP = 1", size = 5, family = 'roboto', hjust = "left",
+             color = "purple4"),
+    annotate(geom = "text", x = 12, y = .30,
+             label = "NAP = 1", size = 5, family = 'roboto', hjust = "left",
+             color = "brown3")
+  )
+}
+
+theme_tau1 <- function(){
+  list(
+    annotate(geom = "text", x = 11, y = .9,
+             label = "NAP = 1\nTau-U = 0.80", size = 5, family = 'roboto', hjust = "left",
+             color = "violetred3")
+  )
+}
+
+theme_tau2 <- function(){
+  list(
+    annotate(geom = "text", x = 14, y = .85,
+             label = "Tau-U = 0.8", size = 5, family = 'roboto', hjust = "right",
+             color = "violetred3"),
+    annotate(geom = "text", x = 7, y = .2,
+             label = "Tau-U = 1.06", size = 5, family = 'roboto', hjust = "left", vjust = 'top,',
+             color = "darkmagenta"),
+    annotate(geom = "text", x = 12, y = .50,
+             label = "Tau-U = 0.94 = 1", size = 5, family = 'roboto', hjust = "left", vjust = 'top',
+             color = "violetred4")
+  )
+}
+
+
+theme_pmg1 <- function(){
+  list(
+    geom_hline(aes(yintercept = 0.15)),
+    annotate("segment", x = 8, xend = 15, y = 1, yend = 1, color = 'black'),
+    annotate("segment", x = 15, y = 0.15, xend = 15, yend = 1,
+           color = 'darkblue', arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))),
+    annotate("segment", x = 14.5, y = 0.15, xend = 14.5, yend = 0.8,
+           color = 'darkred', arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))),
+    annotate(geom = "text", x = 14.75, y = 0.97,
+             label = "potential maximal gain", size = 5, family = 'roboto', hjust = "right", vjust = 'top', color = 'darkblue'),
+    annotate(geom = "text", x = 14.25, y = .81,
+             label = "actual gain", size = 5, family = 'roboto', hjust = "right", vjust = 'top', color = 'darkred'),
+    annotate(geom = "text", x = 12, y = .05,
+             label = "PMG = 0.76", size = 5, family = 'roboto', hjust = "left", vjust = 'bottom', color = 'black')
+  )
+}
+
+theme_pmg2 <- function(){
+  list(
+    annotate(geom = "text", x = 15, y = 0.5,
+             label = "PMG = 0.76", size = 5, family = 'roboto', hjust = "right", vjust = 'bottom', color = 'purple4'),
+    annotate(geom = "text", x = 10, y = .95,
+             label = "PMG = 1.0", size = 5, family = 'roboto', hjust = "left", vjust = 'top', color = 'darkslateblue')
+  )
+}
+
+
+
+
+theme_smd1 <- function() {
+  list(
+    geom_hline(aes(yintercept = 0.21)),
+    geom_hline(aes(yintercept = 0.53)),
+    annotate(geom = "text", x = 6, y = 0.23,
+             label = TeX("$\\bar{x}_{baseline} = \\frac{6.4}{30}$", output = 'character'),
+             size = 5, family = 'roboto', hjust = "left",
+             vjust = 'bottom', color = 'black', parse = T),
+    annotate(geom = "text", x = 1.2, y = 0.55,
+             label = TeX("$\\bar{x}_{treatment} = \\frac{16}{30}$", output = 'character'),
+             size = 5, family = 'roboto', hjust = "left",
+             vjust = 'bottom', color = 'black', parse = T),
+    annotate(geom = "curve", x = 8, y = .10, xend = 4.6, yend = 0.18, 
+             curvature = -.3,
+             arrow = arrow(length = unit(3, "mm"), type = 'closed')),
+    annotate(geom = "text", x = 8.5, y = .1,
+             label = TeX("$\\sigma_{baseline} = 2.4$", output = 'character'), size = 5, family = 'roboto',
+             hjust = "left", parse = T)
+  )
+}
+
 
 theme_smd2 <- function() {
 list(
@@ -143,8 +247,8 @@ list(
       geom = "curve", x = 2.5, y = .5, xend = 3, yend = .25, 
       curvature = -.6, arrow = arrow(length = unit(3, "mm"), type = 'closed')
     ),
-    annotate(geom = "text", x = 3, y = .55,
-             label = "low variability", size = 4, family = 'roboto'),
+    annotate(geom = "text", x = 1, y = .55,
+             label = "low variability (sd = 0.5)", size = 4, family = 'roboto', hjust = "left"),
     annotate(geom = "text", x = 15, y = .85,
              label = "SMD = 16.8", size = 4, family = 'roboto',
              hjust = "right", color = "darkblue"),
@@ -160,6 +264,18 @@ theme_smd3 <- function() {
              curvature = -.4,
              arrow = arrow(length = unit(3, "mm"), type = 'closed')),
     annotate(geom = "text", x = 8.5, y = .2,
-             label = "no variability, must pool", size = 4, family = 'roboto')
+             label = "no variability, must pool", size = 4, family = 'roboto'),
+    annotate(geom = "text", x = 15, y = .85,
+             label = "pooled SMD = 4.19", size = 4, family = 'roboto',
+             hjust = "right", color = "darkblue")
   )
 }
+
+
+
+
+
+# geom_bracket(inherit.aes = F, xmin = 6, xmax = 15, y.position = .75,
+#              label = "bar(x)[treatment]", label.size = 4.5, type = 'expression'),
+# geom_bracket(inherit.aes = F, xmin = 1, xmax = 5, y.position = .45,
+#              label = "bar(x)[baseline]", label.size = 4.5, type = 'expression')

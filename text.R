@@ -2,9 +2,7 @@
 
 ls <- list()
 # p1 ####
-ls$text1a <- "Single-case designs are common aphasia research. They can be more cost-effective than larger trials while providing a close look at individual differences in treatment response"
-
-ls$text1b <- "Effect sizes describe the magnitude of treatment response and are essential to single-case design research. They can validate the clinical relevance of treatment. They are used as dependent variables in studies predicting treatment response. In both cases, effect size accuracy and precision is important"
+ls$text1a <- "Single-case designs are common aphasia research. They can be more cost-effective than larger trials while providing a close look at individual differences in treatment response. Effect sizes describe the magnitude of treatment response and are essential to single-case design research. They can validate the clinical relevance of treatment. They are used as dependent variables in studies predicting treatment response. In both cases, effect size accuracy and precision is important"
 
 # p2 ####
 ls$text2a <- "However, estimating effect sizes in aphasia single-case designs can be challenging. Response to treatment is noisy and variable. Baseline performancae is not always stable, masking treatment effects. Effect sizes are not likely to be equal in their ability to describe the magnitude of change"
