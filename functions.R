@@ -55,7 +55,7 @@ longdiv <- function(...){
   div(
     ...,
     class = "container",
-    style = "height = 80vh; width:80%; margin: auto; padding: 10%;" #padding-top:10%; padding-left:10%, padding-right:10%;"
+    style = "height = 80vh; width:90%; margin: auto; padding: 10%;" #padding-top:10%; padding-left:10%, padding-right:10%;"
     
   )
 }
@@ -98,6 +98,60 @@ theme_scrolly <- function(){
   )
 }
 
+
+theme_smd1 <- function() {
+  list(
+    geom_hline(aes(yintercept = 0.21)),
+    geom_hline(aes(yintercept = 0.53)),
+    annotate(geom = "text", x = 6, y = 0.23,
+             label = TeX("$\\bar{x}_{baseline} = \\frac{6.4}{30}$", output = 'character'),
+             size = 5, family = 'roboto', hjust = "left",
+             vjust = 'bottom', color = 'black', parse = T),
+    annotate(geom = "text", x = 1.2, y = 0.55,
+             label = TeX("$\\bar{x}_{treatment} = \\frac{16}{30}$", output = 'character'),
+             size = 5, family = 'roboto', hjust = "left",
+             vjust = 'bottom', color = 'black', parse = T),
+    annotate(geom = "curve", x = 8, y = .10, xend = 4.6, yend = 0.18, 
+             curvature = -.3,
+             arrow = arrow(length = unit(3, "mm"), type = 'closed')),
+    annotate(geom = "text", x = 8.5, y = .1,
+             label = TeX("$\\sigma_{baseline} = 2.4$", output = 'character'), size = 5, family = 'roboto',
+             hjust = "left", parse = T)
+  )
+}
+
+
+theme_smd2 <- function() {
+  list(
+    annotate(
+      geom = "curve", x = 2.5, y = .5, xend = 3, yend = .25, 
+      curvature = -.6, arrow = arrow(length = unit(3, "mm"), type = 'closed')
+    ),
+    annotate(geom = "text", x = 1, y = .55,
+             label = "low variability (sd = 0.5)", size = 4, family = 'roboto', hjust = "left"),
+    annotate(geom = "text", x = 15, y = .85,
+             label = "SMD = 16.8", size = 4, family = 'roboto',
+             hjust = "right", color = "darkblue"),
+    annotate(geom = "text", x = 15, y = .42,
+             label = "SMD = 3.2", size = 4, family = 'roboto',
+             hjust = "right", color = "darkmagenta")
+  )
+}
+
+theme_smd3 <- function() {
+  list(
+    annotate(geom = "curve", x = 8, y = .15, xend = 5.25, yend = 0, 
+             curvature = -.4,
+             arrow = arrow(length = unit(3, "mm"), type = 'closed')),
+    annotate(geom = "text", x = 8.5, y = .2,
+             label = "no variability, must pool", size = 4, family = 'roboto'),
+    annotate(geom = "text", x = 15, y = .85,
+             label = "pooled SMD = 4.19", size = 4, family = 'roboto',
+             hjust = "right", color = "darkblue")
+  )
+}
+
+
 theme_nap <- function() {
   list(
     geom_segment(aes(x = 3.05, y = .1666, xend = 6-.2, yend = .0666), color = 'black',size = .25,
@@ -120,7 +174,7 @@ theme_nap <- function() {
                  arrow = arrow(type = 'closed',length = unit(0.25, "cm"))),
     geom_segment(aes(x = 3.05, y = .1666, xend = 15-.2, yend = .6), color = 'black',size = .25,
                  arrow = arrow(type = 'closed',length = unit(0.25, "cm"))),
-    annotate(geom = "text", x = 3, y = .28, label = TeX("$\\frac{1+.5+.5}{10}$",
+    annotate(geom = "text", x = 3, y = .28, label = TeX("$\\frac{1+ .5+ .5}{10}$",
                                                         output = 'character'),
              size = 4, family = 'roboto', parse = T),
     annotate(geom = "text", x = 2, y = .23, label = TeX("$\\frac{1}{10}$",
@@ -218,60 +272,76 @@ theme_pmg2 <- function(){
 
 
 
-
-theme_smd1 <- function() {
+theme_glmm1 <- function() {
   list(
-    geom_hline(aes(yintercept = 0.21)),
-    geom_hline(aes(yintercept = 0.53)),
-    annotate(geom = "text", x = 6, y = 0.23,
-             label = TeX("$\\bar{x}_{baseline} = \\frac{6.4}{30}$", output = 'character'),
-             size = 5, family = 'roboto', hjust = "left",
-             vjust = 'bottom', color = 'black', parse = T),
-    annotate(geom = "text", x = 1.2, y = 0.55,
-             label = TeX("$\\bar{x}_{treatment} = \\frac{16}{30}$", output = 'character'),
-             size = 5, family = 'roboto', hjust = "left",
-             vjust = 'bottom', color = 'black', parse = T),
-    annotate(geom = "curve", x = 8, y = .10, xend = 4.6, yend = 0.18, 
-             curvature = -.3,
-             arrow = arrow(length = unit(3, "mm"), type = 'closed')),
-    annotate(geom = "text", x = 8.5, y = .1,
-             label = TeX("$\\sigma_{baseline} = 2.4$", output = 'character'), size = 5, family = 'roboto',
-             hjust = "left", parse = T)
+      geom_ribbon(data = df %>% filter(sub_id == 99),
+                  aes(x = session, ymin = lci, ymax = uci),  alpha = .2, linetype = 0,), 
+      geom_line(data = df %>% filter(sub_id == 99),
+                aes(y = preds, x = session),size = .75)
   )
 }
 
-
-theme_smd2 <- function() {
-list(
-    annotate(
-      geom = "curve", x = 2.5, y = .5, xend = 3, yend = .25, 
-      curvature = -.6, arrow = arrow(length = unit(3, "mm"), type = 'closed')
-    ),
-    annotate(geom = "text", x = 1, y = .55,
-             label = "low variability (sd = 0.5)", size = 4, family = 'roboto', hjust = "left"),
-    annotate(geom = "text", x = 15, y = .85,
-             label = "SMD = 16.8", size = 4, family = 'roboto',
-             hjust = "right", color = "darkblue"),
-    annotate(geom = "text", x = 15, y = .42,
-             label = "SMD = 3.2", size = 4, family = 'roboto',
-             hjust = "right", color = "darkmagenta")
-)
-}
-
-theme_smd3 <- function() {
+theme_glmm2 <- function() {
   list(
-    annotate(geom = "curve", x = 8, y = .15, xend = 5.25, yend = 0, 
-             curvature = -.4,
-             arrow = arrow(length = unit(3, "mm"), type = 'closed')),
-    annotate(geom = "text", x = 8.5, y = .2,
-             label = "no variability, must pool", size = 4, family = 'roboto'),
-    annotate(geom = "text", x = 15, y = .85,
-             label = "pooled SMD = 4.19", size = 4, family = 'roboto',
-             hjust = "right", color = "darkblue")
+    geom_ribbon(data = df %>% filter(sub_id == 84 | sub_id == 99),
+                aes(x = session, ymin = lci, ymax = uci),  alpha = .1, linetype = 0,), #
+      geom_line(data = df %>% filter(sub_id == 84 | sub_id == 99),
+                aes(y = preds, x = session),size = .75),
+      annotate(geom = "text", x = 6, y = .85,
+               label = "Magenta = 1.40x/session", size = 5, family = 'roboto', hjust = "left",
+               color = "violetred3"),
+      annotate(geom = "text", x = 9, y = .35,
+               label = "Orange: 1.45x/session", size = 5, family = 'roboto', hjust = "left",
+               color = "orangered3")
   )
 }
 
+theme_bmem1 <- function(){
+  list(
+    geom_smooth(data = df %>% filter(sub_id == 12), method = "lm", se = FALSE, formula = y~x),
+      annotate(geom = 'segment', x = 5, xend = 6.02, y = .23, yend = .39, size = .75, color = 'darkblue',
+               linetype = 'dashed'),
+      annotate(geom = "text", x = 1, y = .15,
+               label = TeX('$\\beta_1: BaselineSlope$', output = 'character'),
+               size = 5, family = 'roboto', hjust = "left",
+               color = "darkblue", parse = T,fontface = "bold"),
+      annotate("segment", x = 7.5, y = 0.2, xend = 5.7, yend = .32,
+               color = 'darkblue',
+               arrow = arrow(ends = 'last', type = 'closed',length = unit(0.25, "cm"))), 
+      annotate(geom = "text", x = 7.7, y = .2,
+               label = TeX('$\\beta_2: LevelChange$', output = 'character'),
+               size = 5, family = 'roboto', hjust = "left",
+               color = "darkblue", parse = T, fontface = "bold"),
+      annotate("segment", x = 6, y = 0.39, xend = 14.5, yend = .42,
+               color = 'darkblue'),
+      annotate("segment", x = 11.5, y = 0.64, xend = 11.5, yend = .42,
+               color = 'darkblue',
+               arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))),
+      annotate(geom = "text", x = 11, y = .37,
+               label = TeX('$\\beta_3: SlopeChange$', output = 'character'),
+               size = 5, family = 'roboto', hjust = "left",
+               color = "darkblue", parse = T, fontface = "bold"),
+      annotate("segment", x = 5, y = 0.255, xend = 5, yend = .81,
+               color = 'red', arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))),
+      annotate(geom = "text", x = 1, y = .85,
+               label = "difference between\nposterior samples:\n+16 words",
+               size = 4, family = 'roboto', hjust = "left",
+               color = "red"),
+      annotate(geom = 'segment', x = 5, xend = 15, y = .82, yend = .82, size = .75, color = 'darkblue',
+               linetype = 'dotted')
+  )
+}
 
+theme_bmem2 <- function(){
+  list(
+      annotate(geom = "text", x = 6, y = .85,
+               label = "Magenta = +17.5 words", size = 5, family = 'roboto', hjust = "left",
+               color = "violetred3"),
+      annotate(geom = "text", x = 9, y = .35,
+               label = "Orange: +19.5 words", size = 5, family = 'roboto', hjust = "left",
+               color = "orangered3")
+  )
+}
 
 
 

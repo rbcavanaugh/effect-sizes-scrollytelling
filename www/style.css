@@ -206,11 +206,10 @@ h6 {
 
 code {
     font-family: Monaco, monospace;
+    background: transparent;
     font-size: 1.5rem;
-    background-color:rgba(176, 190, 197, .5);
     color: black;
-    padding: 0.2rem;
-    border-radius: 5px;
+    padding-bottom: 10%;
 }
 		
 /*img.toplogo {

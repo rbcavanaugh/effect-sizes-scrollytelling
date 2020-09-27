@@ -53,7 +53,8 @@ ui <- fluidPage(
       ),
   longdiv(
       h2("Effect sizes in Aphasia single-case design", style = "text-align: center; padding-bottom: 3%"),
-      p(ls$text1a, style = 'text-align: center;')
+      p(ls$text1a, style = 'text-align: center;'),
+      p(ls$text1b, style = 'text-align: center;')
   ),
 
   ########################################### scrolly sections ###########################################################                      
@@ -61,21 +62,23 @@ ui <- fluidPage(
                               "scr",
                              scrolly_graph(imageOutput("distPlot")),
                              scrolly_sections(
-                               scrolly_section(id = "1", h3("Effect sizes in single-case design"),
+                               scrolly_section(id = "1", h3("Challenges in effect size measurement"),
                                                p(ls$text2a),
-                                               p(ls$text2b),
-                                               p(ls$text2c)),
-                               scrolly_section(id = "2", h3("Effect Sizes in Aphasiology"),
-                                               p("Some notes about this data")),
+                                               p(ls$text2b)),
+                               scrolly_section(id = "2", h3("Comparing effect sizes in aphasiology"),
+                                               p(ls$text3a),
+                                               p(ls$text3b)),
                                scrolly_section(id = "3", h3("Standardized Mean Difference"),
                                                p(ls$SMD1),
                                                p(ls$SMD1a),
                                                h4(ls$SMD_eq)),
                                scrolly_section(id = "4", h3("Standardized Mean Difference"),
-                                               p(ls$SMD2)),
+                                               p(ls$SMD2),
+                                               p(ls$SMD2a)),
                                scrolly_section(id = "5", h3("Standardized Mean Difference"),
                                                p(ls$SMD3),
-                                               h4(ls$SMD_eq2)),
+                                               h4(ls$SMD_eq2),
+                                               p(ls$SMD3a)),
                                scrolly_section(id = "6", h3("Non-overlap of All Pairs"),
                                                p(ls$NAP1),
                                                p(ls$NAP2),
@@ -113,25 +116,31 @@ ui <- fluidPage(
 
 ########################################### summary ###########################################################         
 
-  div(h3("Summary"),
-    p("It's clear that these 6 effect sizes each have their own strengths and weaknesses. Knowing that there is no 'gold standard,' we sought to detemine how interchangable these effect size measures are in single case design reserach. To calculate an index of agreement between all measures, we z-scored each effect size measure and and calculated concordance correlation coefficients (Lin 1989)."),
+  div(h3("Agreement between effect size methods"),
+    p(sum1),
     br(),
-  p("In the plot below, scatterplots visualize the relationship between effect sizes (lower triangle) and concordance correlation coefficients (upper triangle). Concordance correlation coefficients less than 0.40 are considered poor. Coefficients between 0.40 and 0.75 are considered good to fair. Coefficients greater than 0.75 are considered good to excellent. Scatterplots also reveal cases where agreement is inconsistent across effect sizes."
-  ), style="text-align: left; padding-left:10%; padding-right:10%; padding-top:10%")
+    p(sum2), style="text-align: left; padding-left:10%; padding-right:10%; padding-top:15%")
 ),
   div(img(src="shiny_plot.svg", heigth = "70%", width = "70%"), style="text-align: center;padding:5%"),
+  div(
+    h3("Recommendations"),
+    p(sum3),
+    p(sum4),
+    p(sum5),
+    style="text-align: left; padding-left:10%; padding-right:10%; padding-top:2%;"
+  ),
   div(h2(
     style = "text-align:center; face:bold",
     tags$a(href = "https://osf.io/6x5pd/", "Interest piqued? Skeptical? Explore the methods and data here")),
     class = "container",
-    style = "height:40vh; line-height:40vh;padding:5%"),
+    style = "padding:5%"),
 
 ########################################### methods ########################################################### 
 
 div(h3("The nitty gritty"),
-    p("Data were simulated for 100 hypothetical people with aphasia participating in a multiple baseline study. Each participant reflected performance on 30 treated items at 5 baseline and 10 treatment probe timepoints.Data were simulated using the R package SimStudy (Goldfeld, 2019), following the general modeling approach described by Manolov and Solanas (2008), in which the probability of a given correct response is a function of the baseline slope (β1), level change (β2) between baseline and treatment phases, and slope change (β3) between baseline and treatment phases. Beta-coefficients for the baseline slope, level change, and slope change variables were set at 0.06, 0.3, and 0.15 respectively (Manolov and Solanas, 2008). The intercept, β0, was defined by a normal distribution with a mean of -1.75 and variance of .25, randomly assigned to each time series. Participant level variance was characterized by a uniform distribution between 0 and 2. Item level effects were modeled by adding a term to describe item difficulty, approximating a normal distribution with a variance of 0.6. A logistic link function was used to calculate the probability of a correct response for each participant, item, session, and condition. Binomial responses were probabilistically simulated with a lag-1 autocorrelation of 0.5. A multi-level model recovered the parameteres effectively."),
-p("SMD was calculated per the methods of Busk and Serlin (1992), NAP and Tau-U were calculated per the methods of Parker and Vannest (2009; 2015); Tau-U with a correction for baseline trend: Tau UA VS. B – TREND A. PMG was calculated as described by Lambon Ralph and colleagues (2010), but using the final session as post-treatment performance. Effect sizes estimated through GLMM replicated the approach described by Meier (2019). BMEM effect sizes mirrored the approach used by Evans et al (2020). In the larger study, calculating SMD similar to Beeson & Robey (2006) did not meaningfully change the results."),
-  style = "text-align:left; padding-left:10%; padding-right:10%"),
+    p(methods1),
+    p(methods2),
+    style = "text-align:left; padding-left:10%; padding-right:10%"),
 
 ########################################### references ########################################################### 
 
@@ -264,78 +273,28 @@ server <- function(input, output) {
       theme_pmg2()
     else if(isTruthy(t==12)) df %>% # glmm 1
       filter(sub_id %in% ls2[[1]]) %>%
-      # mutate(preds = ifelse(sub_id == 84, NA, preds),
-      #        lci = ifelse(sub_id == 84, NA, lci),
-      #        uci = ifelse(sub_id == 84, NA, uci)) %>%
       ggplot(aes(x = session, y = mean_correct, #shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
-      geom_ribbon(data = df %>% filter(sub_id == 99),
-                  aes(x = session, ymin = lci, ymax = uci),  alpha = .2, linetype = 0,) + #linetype = 0,
-      geom_line(data = df %>% filter(sub_id == 99),
-                aes(y = preds, x = session),size = .75)
-    else if(isTruthy(t==13)) df %>% # glmm 1
+      theme_glmm1()
+    else if(isTruthy(t==13)) df %>% # glmm 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, #shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
-      geom_ribbon(data = df %>% filter(sub_id == 84 | sub_id == 99),
-                  aes(x = session, ymin = lci, ymax = uci),  alpha = .1, linetype = 0,) + #
-      geom_line(data = df %>% filter(sub_id == 99),
-                aes(y = preds, x = session),size = .75) +
-      annotate(geom = "text", x = 6, y = .85,
-               label = "Magenta = 1.40x/session", size = 5, family = 'roboto', hjust = "left",
-               color = "violetred3") +
-      annotate(geom = "text", x = 9, y = .35,
-             label = "Orange: 1.45x/session", size = 5, family = 'roboto', hjust = "left",
-             color = "orangered3")
-    else if(isTruthy(t==14)) df %>% # glmm 1
+      theme_glmm2()
+    else if(isTruthy(t==14)) df %>% # bmem 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
-      geom_smooth(data = df %>% filter(sub_id == 12), method = "lm", se = FALSE, formula = y~x) +
-      annotate(geom = 'segment', x = 5, xend = 6.02, y = .23, yend = .39, size = .75, color = 'darkblue',
-               linetype = 'dashed') +
-      annotate(geom = "text", x = 1, y = .15,
-               label = TeX('$\\beta_1: BaselineSlope$', output = 'character'),
-               size = 5, family = 'roboto', hjust = "left",
-               color = "darkblue", parse = T,fontface = "bold")  + 
-      annotate("segment", x = 7.5, y = 0.2, xend = 5.7, yend = .32,
-               color = 'darkblue',
-               arrow = arrow(ends = 'last', type = 'closed',length = unit(0.25, "cm"))) + 
-      annotate(geom = "text", x = 7.7, y = .2,
-               label = TeX('$\\beta_2: LevelChange$', output = 'character'),
-               size = 5, family = 'roboto', hjust = "left",
-               color = "darkblue", parse = T, fontface = "bold")   + 
-      annotate("segment", x = 6, y = 0.39, xend = 14.5, yend = .42,
-               color = 'darkblue')  + 
-      annotate("segment", x = 11.5, y = 0.64, xend = 11.5, yend = .42,
-               color = 'darkblue',
-               arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))) +
-      annotate(geom = "text", x = 9, y = .37,
-               label = TeX('$\\beta_3: SlopeChange$', output = 'character'),
-               size = 5, family = 'roboto', hjust = "left",
-               color = "darkblue", parse = T, fontface = "bold") +
-      annotate("segment", x = 5, y = 0.255, xend = 5, yend = .81,
-               color = 'red', arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm")))+
-      annotate(geom = "text", x = 1, y = .85,
-               label = "difference between\nposterior samples:\n+16 words",
-               size = 4, family = 'roboto', hjust = "left",
-               color = "red") +
-      annotate(geom = 'segment', x = 5, xend = 15, y = .82, yend = .82, size = .75, color = 'darkblue',
-               linetype = 'dotted')
+      theme_bmem1()
     else if(isTruthy(t==15)) df %>%
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
-      theme_scrolly() + 
-      annotate(geom = "text", x = 6, y = .85,
-               label = "Magenta = +17.5 words", size = 5, family = 'roboto', hjust = "left",
-               color = "violetred3") +
-      annotate(geom = "text", x = 9, y = .35,
-               label = "Orange: +19.5 words", size = 5, family = 'roboto', hjust = "left",
-               color = "orangered3")
+      theme_scrolly() +
+      theme_bmem2()
     else NULL
     
     # temporary output file output
