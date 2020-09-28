@@ -91,16 +91,18 @@ a:hover{
 
 a:link {
     background: #B0BEC5;
-    color: darkred;
+    color: black;
     font-size: large;
     font-family: roboto;
+    cursor: pointer;
 }
 
 a:visited {
     background: #B0BEC5;
-    color: black;
+    color: darkred;
     font-family: roboto;
     font-size: large;
+    cursor: pointer;
 }
 
 p {

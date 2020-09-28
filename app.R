@@ -162,7 +162,13 @@ div(h3("Selected References"),
     p("Wiley, R. W., & Rapp, B. (2018). Statistical analysis in Small-N Designs: Using linear mixed-effects modeling for evaluating intervention effectiveness. Aphasiology, 33(1), 1–30. https://doi.org/10.1080/02687038.2018.1454884"),
     style = "text-align:left; padding-left:10%; padding-right:10%"),
 div(p(icon('copyright'), "2020 Robert Cavanaugh"),
-    h6("last updated: 9-19-20"),style = "text-align:center; padding:5%")
+    h6("last updated: 9-19-20"),style = "text-align:center; padding:5%"),
+    h2(tags$a(href = "https://github.com/rbcavanaugh/effect-sizes-scrollytelling/",
+            icon("github")),
+        tags$a(href = "https://robcavanaugh.com",
+               icon("globe-americas")),
+        tags$a(href = "https://twitter.com/Littlejohnsband",
+               icon("twitter")), style = "padding:0%")
 )
 
 

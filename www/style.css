@@ -98,6 +98,7 @@ div.MathJax_Display{
 
 a:hover{
   color: black;
+  cursor: pointer;
 }
 
 .scrolly-container{
@@ -140,7 +141,7 @@ a:hover{
 
 a:link {
     background: #B0BEC5;
-    color: darkred;
+    color: black;
     font-size: large;
     font-family: roboto;
 }
