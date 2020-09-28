@@ -39,7 +39,7 @@ ui <- fluidPage(
   ),
   withMathJax(),
   div(class="demo_wrap",
-          h1("Effect size ScrollyTelling: In development..."),
+          h1("Effect Sizes in Aphasia Single-Case Designs"),
           h2("Rob Cavanaugh"),
           h5("Ph.D Student, University of Pittsburgh"),
           h5(htmlOutput('isItMobile')),
@@ -52,7 +52,7 @@ ui <- fluidPage(
       type = "button"
       ),
   longdiv(
-      h2("Effect sizes in Aphasia single-case design", style = "text-align: center; padding-bottom: 3%"),
+      h2("Introduction", style = "text-align: center; padding-bottom: 3%"),
       p(ls$text1a, style = 'text-align: center;'),
       p(ls$text1b, style = 'text-align: center;')
   ),
