@@ -8,12 +8,8 @@ library(RColorBrewer)
 library(ggrepel)
 library(latex2exp)
 library(grid)
-library(gganimate)
-library(gifski)
-library(ggpubr)
-library(lme4)
-library(sjPlot)
-
+# library(gganimate)
+# library(gifski)
 
 logit2prob <- function(logit){
   odds <- exp(logit)
@@ -40,6 +36,22 @@ df <- read.csv(here('data', 'session_summary.csv')) %>%
   mutate(sub_id = as.factor(sub_id),
          phase = as.factor(ifelse(phase == 0, 'baseline', 'treatment'))) %>%
   left_join(dfpreds, by = c('session', 'sub_id'))
+# 
+# twelve51 <- df %>% filter(sub_id == 12 | sub_id == 51) %>%
+#   filter(phase == 'baseline' | session >13)
+# 
+# df %>% filter(sub_id == 12 | sub_id == 51) %>%
+#   filter(phase == 'baseline' | session >13) %>%
+#   group_by(sub_id) %>%
+#   summarize(sd = sd(num_correct))
+# 
+# es_SMD <- batch_calc_ES(twelve51,
+#                         grouping = c(sub_id),
+#                         condition = phase,
+#                         outcome = mean_correct, improvement = 'increase',
+#                         ES = c('SMD'), std_dev = 'pool',
+#                         session_number = session, bias_correct = F,
+#                         format = 'wide')
 
 colr <- scales::hue_pal()(6)
 
@@ -47,7 +59,7 @@ t = 1
 
 library(showtext)
 font_add_google(name = "Roboto", family = "roboto",
-                regular.wt = 300, bold.wt = 500)
+                regular.wt = 400, bold.wt = 500)
 showtext_auto()
 showtext_opts(dpi = 112)
 
@@ -79,20 +91,20 @@ theme_scrolly <- function(){
     geom_vline(aes(xintercept = 5.5), alpha = .5),
     scale_y_continuous(limits = c(0,1), labels = scales::percent),
     scale_x_continuous(labels = seq(1,15,1), breaks = seq(1,15,1)),
-    theme_modern(base_size = 12),
+    theme_modern(base_size = 14),
     theme(legend.position = 'none',
           panel.background = element_rect(fill = "transparent",colour = NA), 
           panel.grid.minor = element_blank(), 
           panel.grid.major = element_blank(),
           plot.background = element_rect(fill = "transparent",colour = NA),
-          axis.title.x = element_text(family = 'roboto'),
-          axis.title.y = element_text(family = 'roboto'),
-          strip.text.x = element_text(family = 'roboto', face = "plain")),
+          axis.title.x = element_text(family = 'roboto', size = 14),
+          axis.title.y = element_text(family = 'roboto', size = 14),
+          strip.text.x = element_text(family = 'roboto', size = 14)),
       scale_colour_viridis_d(option = "plasma", begin = 0, end = .6),
       annotate(geom = "text", x = 5.4, y = 1, label = "baseline",
-               size = 4, family = 'roboto', hjust = 'right', fontface = "italic"),
+               size = 5, family = 'roboto', hjust = 'right', fontface = "italic"),
       annotate(geom = "text", x = 5.6, y = 1, label = "treatment",
-               size = 4, family = 'roboto', hjust = 'left', fontface = "italic"),
+               size = 5, family = 'roboto', hjust = 'left', fontface = "italic"),
     ylab(NULL),
     xlab(NULL) 
   )
@@ -130,24 +142,44 @@ theme_smd2 <- function() {
     annotate(geom = "text", x = 1, y = .55,
              label = "low variability (sd = 0.5)", size = 4, family = 'roboto', hjust = "left"),
     annotate(geom = "text", x = 15, y = .85,
-             label = "SMD = 16.8", size = 4, family = 'roboto',
+             label = "SMD = 21", size = 4, family = 'roboto',
              hjust = "right", color = "darkblue"),
     annotate(geom = "text", x = 15, y = .42,
-             label = "SMD = 3.2", size = 4, family = 'roboto',
+             label = "SMD = 4.0", size = 4, family = 'roboto',
              hjust = "right", color = "darkmagenta")
   )
 }
 
 theme_smd3 <- function() {
   list(
-    annotate(geom = "curve", x = 8, y = .15, xend = 5.25, yend = 0, 
-             curvature = -.4,
-             arrow = arrow(length = unit(3, "mm"), type = 'closed')),
-    annotate(geom = "text", x = 8.5, y = .2,
-             label = "no variability, must pool", size = 4, family = 'roboto'),
+    annotate(
+      geom = "curve", x = 2.5, y = .5, xend = 3, yend = .25, 
+      curvature = -.6, arrow = arrow(length = unit(3, "mm"), type = 'closed')),
+    annotate(geom = "text", x = 1, y = .55,
+             label = "low variability (sd = 0.5)", size = 4, family = 'roboto', hjust = "left"),
     annotate(geom = "text", x = 15, y = .85,
-             label = "pooled SMD = 4.19", size = 4, family = 'roboto',
-             hjust = "right", color = "darkblue")
+             label = "SMD pooled = 2.8", size = 4, family = 'roboto',
+             hjust = "right", color = "darkblue"),
+    annotate(geom = "text", x = 15, y = .42,
+             label = "SMD pooled = 3.12", size = 4, family = 'roboto',
+             hjust = "right", color = "darkmagenta")
+  )
+}
+
+theme_smd4 <- function() {
+  list(
+    annotate(
+      geom = "curve", x = 2.5, y = .5, xend = 3, yend = .25, 
+      curvature = -.6, arrow = arrow(length = unit(3, "mm"), type = 'closed')
+    ),
+    annotate(geom = "text", x = 1, y = .55,
+             label = "low variability (sd = 0.5)", size = 4, family = 'roboto', hjust = "left"),
+    annotate(geom = "text", x = 15, y = .85,
+             label = "SMD Beeson & Robey = 29.9", size = 4, family = 'roboto',
+             hjust = "right", color = "darkblue"),
+    annotate(geom = "text", x = 15, y = .42,
+             label = "SMD Beeson & Robey = 4.6", size = 4, family = 'roboto',
+             hjust = "right", color = "darkmagenta")
   )
 }
 
@@ -238,7 +270,7 @@ theme_tau2 <- function(){
              label = "Tau-U = 1.06", size = 5, family = 'roboto', hjust = "left", vjust = 'top,',
              color = "darkmagenta"),
     annotate(geom = "text", x = 12, y = .50,
-             label = "Tau-U = 0.94 = 1", size = 5, family = 'roboto', hjust = "left", vjust = 'top',
+             label = "Tau-U = 0.94", size = 5, family = 'roboto', hjust = "left", vjust = 'top',
              color = "violetred4")
   )
 }
@@ -288,10 +320,10 @@ theme_glmm2 <- function() {
       geom_line(data = df %>% filter(sub_id == 84 | sub_id == 99),
                 aes(y = preds, x = session),size = .75),
       annotate(geom = "text", x = 6, y = .85,
-               label = "Magenta = 1.40x/session", size = 5, family = 'roboto', hjust = "left",
+               label = "GLMM = 1.40x/session", size = 5, family = 'roboto', hjust = "left",
                color = "violetred3"),
       annotate(geom = "text", x = 9, y = .35,
-               label = "Orange: 1.45x/session", size = 5, family = 'roboto', hjust = "left",
+               label = "GLMM = 1.45x/session", size = 5, family = 'roboto', hjust = "left",
                color = "orangered3")
   )
 }
@@ -322,11 +354,11 @@ theme_bmem1 <- function(){
                size = 5, family = 'roboto', hjust = "left",
                color = "darkblue", parse = T, fontface = "bold"),
       annotate("segment", x = 5, y = 0.255, xend = 5, yend = .81,
-               color = 'red', arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))),
+               color = 'darkred', arrow = arrow(ends = 'both', type = 'closed',length = unit(0.25, "cm"))),
       annotate(geom = "text", x = 1, y = .85,
                label = "difference between\nposterior samples:\n+16 words",
                size = 4, family = 'roboto', hjust = "left",
-               color = "red"),
+               color = "darkred"),
       annotate(geom = 'segment', x = 5, xend = 15, y = .82, yend = .82, size = .75, color = 'darkblue',
                linetype = 'dotted')
   )
@@ -335,17 +367,11 @@ theme_bmem1 <- function(){
 theme_bmem2 <- function(){
   list(
       annotate(geom = "text", x = 6, y = .85,
-               label = "Magenta = +17.5 words", size = 5, family = 'roboto', hjust = "left",
+               label = "BMEM = +17.5 words", size = 5, family = 'roboto', hjust = "left",
                color = "violetred3"),
       annotate(geom = "text", x = 9, y = .35,
-               label = "Orange: +19.5 words", size = 5, family = 'roboto', hjust = "left",
+               label = "BMEM: +19.5 words", size = 5, family = 'roboto', hjust = "left",
                color = "orangered3")
   )
 }
 
-
-
-# geom_bracket(inherit.aes = F, xmin = 6, xmax = 15, y.position = .75,
-#              label = "bar(x)[treatment]", label.size = 4.5, type = 'expression'),
-# geom_bracket(inherit.aes = F, xmin = 1, xmax = 5, y.position = .45,
-#              label = "bar(x)[baseline]", label.size = 4.5, type = 'expression')

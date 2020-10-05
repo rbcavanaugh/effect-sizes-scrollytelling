@@ -40,8 +40,8 @@ ui <- fluidPage(
   withMathJax(),
   div(class="demo_wrap",
           h1("Effect Sizes in Aphasia Single-Case Designs"),
-          h2("Rob Cavanaugh"),
-          h5("Ph.D Student, University of Pittsburgh"),
+          #h2("Rob Cavanaugh"),
+          #h5("Ph.D Student, University of Pittsburgh"),
           h5(htmlOutput('isItMobile')),
           img(src = "outfile2.gif"),
           ),
@@ -79,37 +79,40 @@ ui <- fluidPage(
                                                p(ls$SMD3),
                                                h4(ls$SMD_eq2),
                                                p(ls$SMD3a)),
-                               scrolly_section(id = "6", h3("Non-overlap of All Pairs"),
+                               scrolly_section(id = "6", h3("Standardized Mean Difference"),
+                                               p(ls$SMD4a),
+                                               h4(ls$SMD_eq3),
+                                               p(ls$SMD4b)),
+                               scrolly_section(id = "7", h3("Non-overlap of All Pairs"),
                                                p(ls$NAP1),
                                                p(ls$NAP2),
                                                p(ls$NAP3)),
-                               scrolly_section(id = "7", h3("Non-overlap of All Pairs"),
+                               scrolly_section(id = "8", h3("Non-overlap of All Pairs"),
                                                p(ls$NAP4)),
-                               scrolly_section(id = "8", h3("Tau-U"),
-                                               p(ls$TAU)),
                                scrolly_section(id = "9", h3("Tau-U"),
+                                               p(ls$TAU)),
+                               scrolly_section(id = "10", h3("Tau-U"),
                                                p(ls$TAU1),
                                                p(ls$TAU2)),
-                               scrolly_section(id = "10", h3("Proportion of Potential Maximal Gain"),
+                               scrolly_section(id = "11", h3("Proportion of Potential Maximal Gain"),
                                                p(ls$PMG1),
                                                h4(ls$PMG_eq)),
-                               scrolly_section(id = "11", h3("Proportion of Potential Maximal Gain"),
+                               scrolly_section(id = "12", h3("Proportion of Potential Maximal Gain"),
                                                p(ls$PMG2),
                                                p(ls$PMG3)),
-                               scrolly_section(id = "12", h3("Generalized linear mixed-effects models"),
+                               scrolly_section(id = "13", h3("Generalized linear mixed-effects models"),
                                                p(ls$GLMM1),
                                                p(ls$GLMM2),
                                                code(ls$GLMM_eq)),
-                               scrolly_section(id = "13", h3("Generalized linear mixed-effects models"),
+                               scrolly_section(id = "14", h3("Generalized linear mixed-effects models"),
                                                p(ls$GLMM3),
                                                p(ls$GLMM4)),
-                               scrolly_section(id = "14", h3("Bayesian GLMMs"),
+                               scrolly_section(id = "15", h3("Bayesian GLMMs"),
                                                p(ls$BMEM1),
                                                p(ls$BMEM_eq),
                                                p(ls$BMEM1a)),
-                               scrolly_section(id = "15", h3("Bayesian GLMMs"),
+                               scrolly_section(id = "16", h3("Bayesian GLMMs"),
                                                p(ls$BMEM2),
-                                               p(ls$BMEM3),
                                                br(),
                                                br()),
                             )),
@@ -130,14 +133,19 @@ ui <- fluidPage(
     style="text-align: left; padding-left:10%; padding-right:10%; padding-top:2%;"
   ),
   div(h2(
-    style = "text-align:center; face:bold",
+    style = "text-align:center;",
     tags$a(href = "https://osf.io/6x5pd/", "Interest piqued? Skeptical? Explore the methods and data here")),
     class = "container",
     style = "padding:5%"),
 
 ########################################### methods ########################################################### 
 
+
 div(h3("The nitty gritty"),
+    p("A Systematic Apprasial of Individual Effect Sizes in Aphasia Rehabilitation", style = "font-weight: bold;"),
+    p("Robert Cavanaugh, Lauren Terhorst, Alexander M. Swiderski, William D. Hula, William S. Evans"),
+    p("Poster for presentation: Academy of Aphasia 2020"),
+    br(),
     p(methods1),
     p(methods2),
     style = "text-align:left; padding-left:10%; padding-right:10%"),
@@ -162,13 +170,13 @@ div(h3("Selected References"),
     p("Wiley, R. W., & Rapp, B. (2018). Statistical analysis in Small-N Designs: Using linear mixed-effects modeling for evaluating intervention effectiveness. Aphasiology, 33(1), 1–30. https://doi.org/10.1080/02687038.2018.1454884"),
     style = "text-align:left; padding-left:10%; padding-right:10%"),
 div(p(icon('copyright'), "2020 Robert Cavanaugh"),
-    h6("last updated: 9-19-20"),style = "text-align:center; padding:5%"),
+    h6("last updated: 10-4-20"),style = "text-align:center; padding:2.5%"),
     h2(tags$a(href = "https://github.com/rbcavanaugh/effect-sizes-scrollytelling/",
             icon("github")),
         tags$a(href = "https://robcavanaugh.com",
                icon("globe-americas")),
         tags$a(href = "https://twitter.com/Littlejohnsband",
-               icon("twitter")), style = "padding:0%")
+               icon("twitter")), style = "padding:0%;")
 )
 
 
@@ -198,20 +206,21 @@ server <- function(input, output) {
         t3 =  c(51),#SMD
         t4 =  c(12, 51),#SMD
         t5 =  c(12, 51),#SMD
-        t6  = c(15), #NAP
-        t7  = c(51, 84, 93), #NAP
-        t8 =  c(84), #TAU
-        t9  = c(56, 57, 84), #TAU
-        t10  = c(34), # PMG
-        t11  = c(31, 34), #PMG
-        t12  = c(99), #GLMM
-        t13  = c(84, 99), #GLMMM
-        t14  = c(12),
-        t13  = c(84, 99) #GLMMM#BMEM
+        t6 =  c(12, 51),#SMD
+        t7  = c(15), #NAP
+        t8  = c(51, 84, 93), #NAP
+        t9 =  c(84), #TAU
+        t10  = c(56, 57, 84), #TAU
+        t11  = c(34), # PMG
+        t12  = c(31, 34), #PMG
+        t13  = c(99), #GLMM
+        t14  = c(84, 99), #GLMMM
+        t15  = c(12),
+        t16  = c(84, 99) #GLMMM#BMEM
     )
     
     # create variable sel for alpha
-    if(between(t, 1,15)) sel = ls2[[t]]
+    if(between(t, 1,16)) sel = ls2[[t]]
     
     p <- if(isTruthy(t==1)) df %>% # plots all 100
       ggplot(aes(x = session, y = mean_correct, shape = phase, color = sub_id,
@@ -235,67 +244,72 @@ server <- function(input, output) {
       theme_scrolly() +
       theme_smd2()
     else if(isTruthy(t==5)) df %>% # SMD 3
-      mutate(mean_correct = ifelse(sub_id == 12 & phase == 'baseline', 0, mean_correct)) %>%
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_smd3()
-    else if(isTruthy(t==6)) df %>% # NAP 1
+    else if(isTruthy(t==6)) df %>% #SMD 5.1
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+      theme_scrolly() +
+      theme_smd4()
+    else if(isTruthy(t==7)) df %>% # NAP 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_nap()
-    else if(isTruthy(t==7)) df %>% # NAP 2
+    else if(isTruthy(t==8)) df %>% # NAP 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_nap2()
-    else if(isTruthy(t==8)) df %>% # tau 1
+    else if(isTruthy(t==9)) df %>% # tau 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_tau1()
-    else if(isTruthy(t==9)) df %>% # tau 2
+    else if(isTruthy(t==10)) df %>% # tau 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_tau2()
-    else if(isTruthy(t==10)) df %>% # pmg 1
+    else if(isTruthy(t==11)) df %>% # pmg 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_pmg1()
-    else if(isTruthy(t==11)) df %>% # pmg 2
+    else if(isTruthy(t==12)) df %>% # pmg 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
       theme_scrolly() +
       theme_pmg2()
-    else if(isTruthy(t==12)) df %>% # glmm 1
+    else if(isTruthy(t==13)) df %>% # glmm 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, #shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_glmm1()
-    else if(isTruthy(t==13)) df %>% # glmm 2
+    else if(isTruthy(t==14)) df %>% # glmm 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, #shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_glmm2()
-    else if(isTruthy(t==14)) df %>% # bmem 1
+    else if(isTruthy(t==15)) df %>% # bmem 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_bmem1()
-    else if(isTruthy(t==15)) df %>%
+    else if(isTruthy(t==16)) df %>%
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
