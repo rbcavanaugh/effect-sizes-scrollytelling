@@ -40,8 +40,8 @@ ui <- fluidPage(
   withMathJax(),
   div(class="demo_wrap",
           h1("Effect Sizes in Aphasia Single-Case Designs"),
-          #h2("Rob Cavanaugh"),
-          #h5("Ph.D Student, University of Pittsburgh"),
+          h2("Rob Cavanaugh"),
+          h5("Ph.D Student, University of Pittsburgh"),
           h5(htmlOutput('isItMobile')),
           img(src = "outfile2.gif"),
           ),
@@ -52,9 +52,10 @@ ui <- fluidPage(
       type = "button"
       ),
   longdiv(
-      h2("Introduction", style = "text-align: center; padding-bottom: 3%"),
-      p(ls$text1a, style = 'text-align: center;'),
-      p(ls$text1b, style = 'text-align: center;')
+      h3("Introduction", style = "text-align: center; padding-bottom: 3%"),
+      p(ls$text1a), #style = 'text-align: center;'),
+      p(ls$text1a2), #style = 'text-align: center;'),
+      p(ls$text1b) #style = 'text-align: center;')
   ),
 
   ########################################### scrolly sections ###########################################################                      
@@ -71,7 +72,8 @@ ui <- fluidPage(
                                scrolly_section(id = "3", h3("Standardized Mean Difference"),
                                                p(ls$SMD1),
                                                p(ls$SMD1a),
-                                               h4(ls$SMD_eq)),
+                                               h4(ls$SMD_eq),
+                                               p(ls$SMD1b)),
                                scrolly_section(id = "4", h3("Standardized Mean Difference"),
                                                p(ls$SMD2),
                                                p(ls$SMD2a)),
@@ -90,10 +92,12 @@ ui <- fluidPage(
                                scrolly_section(id = "8", h3("Non-overlap of All Pairs"),
                                                p(ls$NAP4)),
                                scrolly_section(id = "9", h3("Tau-U"),
-                                               p(ls$TAU)),
+                                               p(ls$TAU),
+                                               p(ls$TAUa)),
                                scrolly_section(id = "10", h3("Tau-U"),
                                                p(ls$TAU1),
-                                               p(ls$TAU2)),
+                                               p(ls$TAU2),
+                                               p(ls$TAU3)),
                                scrolly_section(id = "11", h3("Proportion of Potential Maximal Gain"),
                                                p(ls$PMG1),
                                                h4(ls$PMG_eq)),
@@ -102,8 +106,8 @@ ui <- fluidPage(
                                                p(ls$PMG3)),
                                scrolly_section(id = "13", h3("Generalized linear mixed-effects models"),
                                                p(ls$GLMM1),
-                                               p(ls$GLMM2),
-                                               code(ls$GLMM_eq)),
+                                               p(ls$GLMM2)),
+                                               #p(ls$GLMM_eq)),
                                scrolly_section(id = "14", h3("Generalized linear mixed-effects models"),
                                                p(ls$GLMM3),
                                                p(ls$GLMM4)),
@@ -121,8 +125,8 @@ ui <- fluidPage(
 
   div(h3("Agreement between effect size methods"),
     p(sum1),
-    br(),
-    p(sum2), style="text-align: left; padding-left:10%; padding-right:10%; padding-top:15%")
+    p(sum2),
+    p(sum2a),style="text-align: left; padding-left:10%; padding-right:10%; padding-top:15%")
 ),
   div(img(src="shiny_plot.svg", heigth = "70%", width = "70%"), style="text-align: center;padding:5%"),
   div(
@@ -140,11 +144,10 @@ ui <- fluidPage(
 
 ########################################### methods ########################################################### 
 
-
 div(h3("The nitty gritty"),
     p("A Systematic Apprasial of Individual Effect Sizes in Aphasia Rehabilitation", style = "font-weight: bold;"),
     p("Robert Cavanaugh, Lauren Terhorst, Alexander M. Swiderski, William D. Hula, William S. Evans"),
-    p("Poster for presentation: Academy of Aphasia 2020"),
+    p("Poster: Academy of Aphasia 2020"),
     br(),
     p(methods1),
     p(methods2),
@@ -153,6 +156,7 @@ div(h3("The nitty gritty"),
 ########################################### references ########################################################### 
 
 div(h3("Selected References"),
+    p("Antonucci, S., & Gilmore, N. (2019). Do aphasia core outcome sets require core analysis sets: Where do we go from here in single subject design research? 49th Clinical Aphasiology Conference."),
     p("Beeson, P. M., & Robey, R. R. (2006). Evaluating single-subject treatment research: Lessons learned from the aphasia literature. Neuropsychology Review, 16(4), 161–169. https://doi.org/10.1007/s11065-006-9013-7"),
     p("Bürkner, P. C. (2018). Advanced Bayesian multilevel modeling with the R package brms. R Journal. https://doi.org/10.32614/rj-2018-017"),
     p("Creet, E., Morris, J., Howard, D., & Nickels, L. (2019). Name it again! Investigating the effects of repeated naming attempts in aphasia. Aphasiology, 33(10), 1202–1226. https://doi.org/10.1080/02687038.2019.1622352"),
@@ -162,6 +166,7 @@ div(h3("Selected References"),
     p("King, T. S., & Chinchilli, V. M. (2001). A generalized concordance correlation coefficient for continuous and categorical data. Statistics in Medicine, 20(14), 2131–2147. https://doi.org/10.1002/sim.845"),
     p("Lambon Ralph, M. A., Snell, C., Fillingham, J. K., Conroy, P., & Sage, K. (2010). Predicting the outcome of anomia therapy for people with aphasia post CVA: both language and cognitive status are key predictors. Neuropsychological Rehabilitation, 20(2), 289–305. https://doi.org/10.1080/09602010903237875"),
     p("Landis, J. R., & Koch, G. G. (1977). An Application of Hierarchical Kappa-type Statistics in the Assessment of Majority Agreement among Multiple Observers. Biometrics, 33(2), 363–374. JSTOR. https://doi.org/10.2307/2529786"),
+    p("Lee, J. B., & Cherney, L. R. (2018). Tau-U: A Quantitative Approach for Analysis of Single-Case Experimental Data in Aphasia. American Journal of Speech-Language Pathology, 27(1S), 495–503. https://doi.org/10.1044/2017_AJSLP-16-0197"),
     p("Lin, L. I.-K. (1989). A Concordance Correlation Coefficient to Evaluate Reproducibility. Biometrics, 45(1), 255–268. JSTOR. https://doi.org/10.2307/2532051"),
     p("Manolov, R., & Solanas, A. (2008). Comparing N = 1 Effect Size Indices in Presence of Autocorrelation. Behavior Modification, 32(6), 860–875. https://doi.org/10.1177/0145445508318866"),
     p("Parker, R. I., & Vannest, K. (2009). An improved effect size for single-case research: Nonoverlap of all pairs. Behavior Therapy, 40(4), 357–367. https://doi.org/10.1016/j.beth.2008.10.006"),
@@ -169,14 +174,20 @@ div(h3("Selected References"),
     p("R Core Team. (2020). R: A language and environment for statistical computing (4.0.2). R Foundation for Statistical Computing. https://www.r-project.org/"),
     p("Wiley, R. W., & Rapp, B. (2018). Statistical analysis in Small-N Designs: Using linear mixed-effects modeling for evaluating intervention effectiveness. Aphasiology, 33(1), 1–30. https://doi.org/10.1080/02687038.2018.1454884"),
     style = "text-align:left; padding-left:10%; padding-right:10%"),
-div(p(icon('copyright'), "2020 Robert Cavanaugh"),
-    h6("last updated: 10-4-20"),style = "text-align:center; padding:2.5%"),
+br(),
+div(p("This work was inspired by the 2019 CAC roundtable led by Natalie Gilmore and Sharon Antonucci. Thanks to Natalie and Sam Harvey (La Trobe University) for their extremely helpful feedback on this vignette.", style = "text-align:center; padding-left:10%; padding-right:10%"),
+    p("Did I goof somewhere? Do you have recommendations or questions? Contact me here:", style = "text-align:center;"),
     h2(tags$a(href = "https://github.com/rbcavanaugh/effect-sizes-scrollytelling/",
             icon("github")),
         tags$a(href = "https://robcavanaugh.com",
                icon("globe-americas")),
         tags$a(href = "https://twitter.com/Littlejohnsband",
-               icon("twitter")), style = "padding:0%;")
+               icon("twitter")),
+       tags$a(href = "mailto:rob.cavanaugh@pitt.edu",
+              icon("envelope")),
+       style = "padding-left:20%; padding-right:20%"),
+    p(icon('copyright'), "2020 Robert Cavanaugh"),
+    h6("last updated: 10-9-20"),style = "text-align:center; padding:2.5%")
 )
 
 
@@ -188,7 +199,7 @@ div(p(icon('copyright'), "2020 Robert Cavanaugh"),
 server <- function(input, output) {
   
     output$isItMobile <- renderText({
-      ifelse(input$isMobile, "Recommend viewing in landscape on mobile", "")
+      ifelse(input$isMobile, "Not optimized for mobile: Recommend viewing in landscape", "")
     })
   
 
@@ -234,61 +245,61 @@ server <- function(input, output) {
     else if(isTruthy(t==3)) df %>%
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_smd1()
     else if(isTruthy(t==4)) df %>% #SMD 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_smd2()
     else if(isTruthy(t==5)) df %>% # SMD 3
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_smd3()
     else if(isTruthy(t==6)) df %>% #SMD 5.1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_smd4()
     else if(isTruthy(t==7)) df %>% # NAP 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_nap()
     else if(isTruthy(t==8)) df %>% # NAP 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_nap2()
     else if(isTruthy(t==9)) df %>% # tau 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_tau1()
     else if(isTruthy(t==10)) df %>% # tau 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_tau2()
     else if(isTruthy(t==11)) df %>% # pmg 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_pmg1()
     else if(isTruthy(t==12)) df %>% # pmg 2
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_pmg2()
     else if(isTruthy(t==13)) df %>% # glmm 1
@@ -312,7 +323,7 @@ server <- function(input, output) {
     else if(isTruthy(t==16)) df %>%
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
-                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.25))) +
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_bmem2()
     else NULL
