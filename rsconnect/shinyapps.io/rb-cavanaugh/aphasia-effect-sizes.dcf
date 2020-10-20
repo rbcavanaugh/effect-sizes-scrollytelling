@@ -5,8 +5,8 @@ account: rb-cavanaugh
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2930114
-bundleId: 3756570
+bundleId: 3762464
 url: https://rb-cavanaugh.shinyapps.io/aphasia-effect-sizes/
-when: 1603077464.62772
+when: 1603199846.02538
 asMultiple: FALSE
 asStatic: FALSE
