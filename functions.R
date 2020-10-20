@@ -175,7 +175,7 @@ theme_smd4 <- function() {
     annotate(geom = "text", x = 1, y = .55,
              label = "low variability (sd = 0.5)", size = 6, family = 'roboto', hjust = "left"),
     annotate(geom = "text", x = 15, y = .85,
-             label = TeX("$\\SMD_{BR} = 2.4$", output = 'character'), size = 6, family = 'roboto',
+             label = TeX("$\\SMD_{BR} = 29.9$", output = 'character'), size = 6, family = 'roboto',
              hjust = "right", color = "darkblue", parse = T),
     annotate(geom = "text", x = 15, y = .42,
              label = TeX("$\\SMD_{BR} = 4.6", output = 'character'), size = 6, family = 'roboto',
