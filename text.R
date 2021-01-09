@@ -2,9 +2,9 @@
 
 ls <- list()
 # p1 #### before scrolly sections
-ls$text1a <- "Single-case experimental design studies are common in aphasia research. While not a replacement for larger clinical trials, single-case designs are a cost-effective method for establishing preliminary treatment efficacy and closely examining individual differences in treatment response."
+ls$text1a <- "Single-case experimental design studies are common in aphasia research. These studies (also referred to as single-subject experimental design) focus on treatment response at the individual level and establish experimental control within each participant rather than using a control group. Single-case experimental design studies typically include at least 2-4 participants but methods employed in these studies are often extended to within-subject case-series designs with upwards of thirty participants (e.g., Gilmore et al., 2018), which can be used to test theories and explore individual differences in treatment response. While not a replacement for group-level clinical trials, single-case designs and their case-series extensions are a cost-effective method for establishing preliminary treatment efficacy in early phase research."
 
-ls$text1a2 <- "Effect sizes describe the magnitude of treatment response and are essential to single-case design research. They validate the clinical relevance of treatment and are used as dependent variables in studies predicting treatment response. In both cases, effect size accuracy and precision are important"
+ls$text1a2 <- "Effect sizes are an essential measure of treatment efficacy in these studies, describing the magnitude of treatment response. They validate the clinical relevance of treatment and are often used in within-subject case-series design studies to explore underlying cognitive mechansisms. In both cases, effect size accuracy and precision are important."
 
 
 # p2 #### first scrolly section
@@ -13,7 +13,7 @@ ls$text2a <- "Estimating effect sizes in aphasia single-case designs can be chal
 ls$text2b <- "Effect sizes are not equal in their ability to account for these issues (e.g. Archer et al., 2019; Howard et al., 2015). Understanding the methods, strengths, and weaknesses of each effect size measure and how they are related can guide the selection and deployment of effect size measures in single-case design studies."
 
 
-ls$text3a <- "To systematically evaluate and compare effect sizes used in aphasia single case design reserach, we simulated trial-level performance for 100 participants with aphasia during a hypothetical single-case design anomia study. Our simulated study described performance on 30 words across 5 baseline and 10 treatment probes."
+ls$text3a <- "To compare effect sizes used in aphasia single case design reserach, we simulated trial-level performance for 500 participants with aphasia during a hypothetical single-case design anomia study. Our simulated study described performance on 30 words across 5 baseline and 10 treatment probes."
 
 ls$text3b <- "We calculated effect sizes using 6 methods identified in the aphasia single-case design literature (Gilmore & Antonucci, 2019) and the agreement between these methods. The methods are: Standardized Mean Difference (Busk & Serlin, 1992), Non-overlap of All Pairs (Parker & Vannest., 2009), Tau-U (Parker et al., 2011), Proportion of Maximal Gain (Lambon Ralph et al., 2010), Generalized linear mixed-effects models (Wiley & Rapp 2018) and Bayesian mixed-effects models (based on Hutiema, 2000)." 
 
@@ -30,7 +30,7 @@ ls$SMD2a <- "Across our entire sample, baseline standard deviation accounted for
 
 ls$SMD3 <- "In these cases where baseline variability approaches zero, one option is to pool variance between baseline and treatment phases. But variability may not be even across time and it's not clear that pooling the standard deviation is appropriate (it assumes that variability is constant during baseline and treatment phases)."
 
-ls$SMD3a <- "SMD does not meet the benchmark for 'small' even though the participant demonstrates marked improvement. Whether researchers can elect to pool baseline variability on a case-by-case basis or must pool across all participants is not clear. Furthermore, how benchmarks might shift based on pooled standard deviation has not been studied evaulated."
+ls$SMD3a <- "SMD does not meet the benchmark for 'small' even though the participant demonstrates marked improvement. Whether researchers can elect to pool baseline variability on a case-by-case basis or must pool across all participants is not clear. Furthermore, how benchmarks might shift based on pooled standard deviation has not been evaulated."
 
 ls$SMD_eq <- "\\[{smd} = \\frac{\\bar{x}_{treatment}-\\bar{x}_{baseline}}{\\sigma_{baseline}}\\]"
 ls$SMD_eq2 <- "\\[{smd} = \\frac{\\bar{x}_{treatment}-\\bar{x}_{baseline}}{\\sigma_{pooled}}\\]"
@@ -43,11 +43,11 @@ ls$SMD4b <- "Re-calculating SMD approximating this method (averaging over the la
 # NAP and Tau-U
 ls$NAP1 <- "Non-overlap of all pairs (NAP; Parker & Vannest, 2009) is a non-parametric effect size."
 
-ls$NAP2 <- "NAP characterizes the degree of overlap for all pair-wise comparisons of data points between two adjacent phases. It can be interpreted as “the probability that a score drawn at random from a treatment phase will exceed that of a score drawn at random from a baseline phase” (Parker & Vannest, 2009 p. 359). It ranges from 0 to 1, with greater values indicating less overlap between the treatment and baseline phases and a larger treatment response."
+ls$NAP2 <- "NAP characterizes the degree of overlap for all pair-wise comparisons of data points between two adjacent phases. It can be interpreted as “the probability that a score drawn at random from a treatment phase will exceed that of a score drawn at random from a baseline phase” (Parker & Vannest, 2009 p. 359). It ranges from 0 to 1, with values greater than 0.5 indicating less overlap between the treatment and baseline phases and a larger treatment response."
 
 ls$NAP3 <- "10 out of 50 total comparisons are shown here. In total, there are 3 overlapping data points, two equal data points (ties count as 0.5) and 46 non-overlapping data points between phases. NAP = 46/50 or 0.92."
 
-ls$NAP4 <- "Disadvantages of NAP include susceptiblility to ceiling effects and difficulty differentiating between treatment responders if there is a meaningful jump in performance after between the last baseline probe and first treatment probe (Wolery, 2010). For example, NAP fails to distinguish between participants who clearly demonstrate different treatment responses."
+ls$NAP4 <- "NAP (and Tau-U below) are standardized effect size measures and are not intended to capture the magnitude of treatment effects (Wolery, 2010). As a result, NAP does not distinguish between participants who clearly demonstrate different treatment responses when there is no overlap between phases."
 
 ls$TAU <- "Tau-U (Parker et al. 2011) is an extension of NAP. Unlike NAP, Tau-U can account for baseline trends in performance. Conceptually, values should range from -1 to 1. Larger values indicate increasing independence between study phases."
 
@@ -55,57 +55,50 @@ ls$TAUa <- "In this case, Tau-U clearly adjusts for the rising baseline trend in
 
 ls$TAU1 <- "However, Tau-U is not mathematically constrained between -1 and 1, and may notably exceed 1 when correcting for downward trends in the baseline phase or in cases where the baseline phase has a similar or longer length than the treatment phase (Tarlow, 2017). It is not clear how to interpret values of Tau-U that exceed 1."
 
-ls$TAU2 <- "For example, in the red trace and purple trace, the treatment effect appears equivalent, but Tau-U for purple trace = 1.06 while Tau-U for the red trace = 0.96. Parker et al., (2011) recommend only correcting for the baseline trend in cases where a baseline trend is visually apparent and exceed an a priori benchmark (in Parker et al., baseline slope = 0.4). Without correcting, Tau-U for the purple trace = 1.0." 
+ls$TAU2 <- "For example, in the red trace and purple trace, the treatment effect appears equivalent, but Tau-U for purple trace = 1.06 while Tau-U for the red trace = 0.96. Parker et al., (2011) recommend only correcting for the baseline trend in cases where a baseline trend is visually apparent and exceeds an a priori benchmark (in Parker et al., baseline slope = 0.4). Without correcting, Tau-U for the purple trace = 1.0." 
 
-ls$TAU3 <- "Tau-U can be influenced by a researcher's choice of this benchmark. For example, in order to be more conservative, Lee and Cherney (2018) used a more conservative benchmark of 0.33 for deciding whether to correct for baseline trends.  Notable ongoing concerns with Tau-U have been published (Brossart et al. 2018, Tarlow, 2017) and Tau-U should be employed with caution for these reasons."
-
-ls$PMG1 <- "Lambon Ralph and colleagues (2010) proposed the proportion of potential maximal gain (PMG). PMG is intuitive - it is the proportion of improvement gained (red arrow) to the amount of improvement possible after the baseline phase (blue arrow)."
+ls$PMG1 <- "Lambon Ralph and colleagues (2010) proposed the proportion of potential maximal gain (PMG). PMG reflects is the proportion of improvement gained (red arrow) to the amount of improvement possible after the baseline phase (blue arrow)."
 
 ls$PMG_eq <- "\\[{pmg} = \\frac{\\bar{x}_{post-treatment}-\\bar{x}_{baseline}}{N_{items} - \\bar{x}_{baseline}}\\]"
   
-ls$PMG2 <- "Unfortunately, there is no confidence interval available for PMG. Additionally, decreasing the number of items and baseline item difficulty can bias PMG upwards by improving baseline performance. For example, a participant who improves from 4/20 to 8/20 items (PMG = 0.25) is half that of a participant who improves from 12/20 to 16/20 items (PMG  = 0.50), but equivalent to the participant who improves from 8/40 to 16/40 (PMG = 0.25). It's not clear that this is a desirable behavior for an effect size metric."
+ls$PMG2 <- "Unfortunately, there is no confidence interval available for PMG. Additionally, PMG depends largely on baseline performance rather than amount of change. For example, a participant who improves from 4/20 to 8/20 items (PMG = 0.25) is half that of a participant who improves from 12/20 to 16/20 items (PMG  = 0.50), but equivalent to the participant who improves from 8/40 to 16/40 (PMG = 0.25).  It's not clear that this is a desirable behavior for an effect size metric."
 
 ls$PMG3 <- "This concern is illustrated here, where both cases have improved by approximately 20 words, but PMG for dark purple = 1 while PMG for light purple = 0.76."
 
-ls$GLMM1 <- "Generalized linear mixed effects models (GLMMs) can be used to calculate individual effect sizes. Here, we've replicated the approach from Wiley & Rapp (2018) and Meier et al., (2019). This technique models each item-level response (correct or incorrect) as a function of session (time) for each participant using a binomial distribution (similar to logistic regression)." 
+ls$GLMM1 <- "Generalized linear mixed effects models (GLMMs) can be used to calculate individual effect sizes. Here, we've replicated the approach from Wiley & Rapp (2018). This technique models each item-level response (correct or incorrect) as a function of session (time), phase (baseline vs. treatment) and their interaction for each participant. Session is mean-centered and phase is sum coded (-1,1)." 
 
-ls$GLMM2 <- "The effect size is calculated from the session coefficient, exponentiated from logits to an odds ratio. It is interpreted as the increase in the odds of a correct response per session. For instance, a session coefficient of 0.7 indicates that the odds of a correct response doubles with each treatment session (exp(0.7) = 2.0)."
+ls$GLMM2 <- "A GLMM effect size can be estimated from exponentiating the sum of the session and interaction coefficeints to an odds ratio. For instance, an odds ratio of 2 indicates that the odds of a correct response doubled with each treatment session. Furthermore, the p-value for the interaction coefficient indicates whether this trend is significantly different from the baseline phase."
 
-# ls$GLMM_eq <- "\\[Y=\\beta_0+\\beta_1Time+\\epsilon\\]"
+ls$GLMM3 <- "One drawback to this approach is that the GLMM effect size is only estimated based on the treatment phase, thus the effect size estimates are similar even though red has a significant rising baseline trend which needs to be accounted for."
 
-ls$GLMM3 <- "GLMMs have a number of general drawbacks (not discussed here). In this case, it’s not clear whether this GLMM approach adequately accounts for baseline trends. A single slope through the entire time series still may not adequately adjust effect sizes in the presence of a baseline slope and may underestimate effect sizes when the baseline slope is relatively flat."
-
-ls$GLMM4 <- "In this example, GLMM effect sizes are roughly equivalent, even though red has a significant rising baseline trend which needs to be accounted for. More complex GLMMs which include a phase (baseline vs. treatment) variable may help to resolve these concerns." 
-
+ls$GLMM4 <- "Alternatively, estimating the change in slope from baseline to treatment will account for baseline trends, but assumes that any baseline trends will continue at the same rate without treatment, which may be unrealistic in the case of steep baseline trends. Here, if the GLMM effect size were estimated based on the change in slope from baseline to treatment, it would indicate that treatement had a negative effect on performance for pink (GLMM = 0.89) because of the steep baseline trend, but a similar effect for orange (GLMM = 1.36)." 
 
 ls$BMEM1 <- "Bayesian mixed effects models (BMEMs) have been used in single-case design research in fields outside of aphasiology. Our research group recently deployed a bayesian approach (Evans et al., 2020) to calculating effect sizes. In this study, we used an interrupted time series approach (Hutiema, 2000) which models performance as a function of the slope during the baseline phase, level change between the last baseline and first treatment session, and the change in slope between baseline and treatment:"
 
-ls$BMEM1a <- "This approach includes multiple participants in the same model and derives individual effect sizes by subtracting model’s posterior predictions for each participant at the last baseline probe from the final treatment probe. The median of the difference in posterior predictors thus describes the number of items improved during treatment. Because any trends in baseline performance are characterized in the model structure, this approach may reasonably account for improvement due to repeated testing during the baseline phase."
+ls$BMEM1a <- "This approach can include one or multiple participants in the same model and derives individual effect sizes by subtracting model’s posterior predictions for each participant at the last baseline probe from the final treatment probe. The median of the difference in posterior predictors thus describes the number of items improved during treatment. Because any trends in baseline performance are characterized in the model structure, this approach may reasonably account for improvement due to repeated testing during the baseline phase."
 
 ls$BMEM_eq <- "\\[Y_t=\\beta_0+\\beta_1T_t+\\beta_2D_t+\\beta_3[T_t-(n_1+1)]D_t+\\epsilon_t\\]"
 
-ls$BMEM2 <- "We see slightly more divergence between these cases using the BMEM approach compared to GLMM. the BMEM size suggests that the red case gained about 17.5 items in response to treatment while the orange case gained about 19.5. However, it's again not clear whether this approach adequately accounts for the baseline trend."
+ls$BMEM2 <- "We see slightly more divergence between these cases using the BMEM approach compared to GLMM. The BMEM size suggests that the red case gained about 13.3 items in response to treatment while the orange case gained about 19.5. However, it's again not clear whether this approach adequately accounts for the baseline trend."
 
 
 #################### summary ################
 
-sum1 <- "These 6 effect sizes each have their own strengths and weaknesses. Knowing that there is no 'gold standard,' we sought to determine how interchangeable these effect size measures are in single-case design research. To calculate an index of agreement between all measures, we z-scored each effect size measure and calculated concordance correlation coefficients (Lin 1989) using a non-parametric method to account for non-linear relationships."
+sum1 <- "These 6 effect sizes each have their own strengths and weaknesses. In the plot below, scatterplots visualize the relationship between effect sizes (lower triangle) and coefficients of determination describe the amount of shared variance between measures (upper triangle)."
 
-sum2 <- "In the plot below, scatterplots visualize the relationship between effect sizes (lower triangle) and concordance correlation coefficients (upper triangle). Concordance correlation coefficients less than 0.40 are considered poor. Coefficients between 0.40 and 0.75 are considered fair to good. Coefficients greater than 0.75 are considered good to excellent. Scatterplots also reveal cases where agreement is inconsistent across effect sizes."
+sum2 <- "These relationships likely change depending on the treatment design. In this case, these measures were calculated using a large simulated dataset of 500 participants under an AB design with 5 baseline and 10 treatment sessions. In this dataset, we created a distribution of participant ability estimates and item difficulty estimates based on Fergadiotis et al. (2015). Items were assigned to participants such that baseline performance would average 30% correct regardless of participant ability. Then we simulated item-level treatment response where the degree of treatment resposne was randomly assigned to participants."
 
-sum2a <- "Briefly, we see strong agreement between the non-parametric NAP and Tau-U and between parametic measures PMG, GLMM, and BMEM. SMD does not demonstrate good agreement with any measure, decreasing at larger values of SMD."
+sum3 <- "(1) The relationship between SMD and other measures is characterized by increasing dissimilarity as effect sizes increase. This is likely due to the influence of using baseline variance in the denominator of SMD. In this sample baseline variance accounts of 34% of the variance in SMD scores."
 
-sum3 <- "Given its susceptibility to commonly observed changes in variance and a number of straightforward alternatives, we suggest that it's time to retire standardized mean difference in aphasia single-case designs. Generalized linear mixed effects models and their Bayesian extensions satisfy most criteria for effect sizes in that they can account for baseline trends, are relatively unsusceptible to ceiling effects, and provide a clear estimate of treatment effect magnitude and an estimate of uncertainty."
+sum4 <- "(2) The difference between NAP/Tau-U and other effect size measures is clear, as they do not capture differences in treatment effects when there is no overlap. However, they are high similar to each other."
 
-sum4 <- "We acknowledge there are cases when mixed effects models are too complex. In this situations, non-overlap of all pairs and Tau-U appear to provide similar results when treatments effects are expected to be gradual and/or small but lose sensitivity for characterizing differences between participants when effect sizes are medium to large. The proportion of potential maximal gain provides an interpretable, reasonable approximation of the mixed effects modeling approaches but doesn’t provide a measure of certainty. PMG may be best utilized when combined with a method that is powered to indicate whether or not changes are significant (e.g. weighted statistics)."
+sum5 <- "(3) PMG approximates the BMEM effect size which is expected since the BMEM effect size reflects absolute change between baseline and treatment when baseline performance is neutralized through stimuli selection."
 
-sum5 <- "No methods appear to provide a satisfactory solution to the problem of rising baseline. this problem is likely best addressed with careful experimental design, which can minimize the risk of baseline trends."
-
-
+sum6 <- "(4) Differences between the GLMM and BMEM measures may be explained by the fact that the GLMM effect size implemented does not take into account baseline trends. Furthermore, the GLMM effect size may not fully account for substantial level changes (improvements immediately following baseline)."
 #################### methods ####################
 
-methods1 <- "Data were simulated for 100 hypothetical people with aphasia participating in a multiple baseline study. Each participant reflected performance on 30 treated items at 5 baseline and 10 treatment probe timepoints.Data were simulated using the R package SimStudy (Goldfeld, 2019), following the general modeling approach described by Manolov and Solanas (2008), in which the probability of a given correct response is a function of the baseline slope (β1), level change (β2) between baseline and treatment phases, and slope change (β3) between baseline and treatment phases. Beta-coefficients for the baseline slope, level change, and slope change variables were set at 0.06, 0.3, and 0.15 respectively (Manolov and Solanas, 2008). The intercept, β0, was defined by a normal distribution with a mean of -1.75 and variance of .25, randomly assigned to each time series. Participant level variance was characterized by a uniform distribution between 0 and 2. Item level effects were modeled by adding a term to describe item difficulty, approximating a normal distribution with a variance of 0.6. A logistic link function was used to calculate the probability of a correct response for each participant, item, session, and condition. Binomial responses were probabilistically simulated with a lag-1 autocorrelation of 0.5. A multi-level model recovered the parameteres effectively."
+methods1 <- ""
   
-methods2 <- "SMD was calculated per the methods of Busk and Serlin (1992), NAP and Tau-U were calculated per the methods of Parker and Vannest (2009; 2015); Tau-U with a correction for baseline trend: Tau UA VS. B – TREND A. PMG was calculated as described by Lambon Ralph and colleagues (2010), but using the final session as post-treatment performance. Effect sizes estimated through GLMM replicated the approach described by Meier (2019). BMEM effect sizes mirrored the approach used by Evans et al (2020). In the larger study, calculating SMD similar to Beeson & Robey (2006) did not meaningfully change the results."
+methods2 <- ""
 
 

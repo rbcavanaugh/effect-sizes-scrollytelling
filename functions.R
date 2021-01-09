@@ -8,8 +8,6 @@ library(RColorBrewer)
 library(ggrepel)
 library(latex2exp)
 library(grid)
-# library(gganimate)
-# library(gifski)
 
 logit2prob <- function(logit){
   odds <- exp(logit)
@@ -36,22 +34,7 @@ df <- read.csv(here('data', 'session_summary.csv')) %>%
   mutate(sub_id = as.factor(sub_id),
          phase = as.factor(ifelse(phase == 0, 'baseline', 'treatment'))) %>%
   left_join(dfpreds, by = c('session', 'sub_id'))
-# 
-# twelve51 <- df %>% filter(sub_id == 12 | sub_id == 51) %>%
-#   filter(phase == 'baseline' | session >13)
-# 
-# df %>% filter(sub_id == 12 | sub_id == 51) %>%
-#   filter(phase == 'baseline' | session >13) %>%
-#   group_by(sub_id) %>%
-#   summarize(sd = sd(num_correct))
-# 
-# es_SMD <- batch_calc_ES(twelve51,
-#                         grouping = c(sub_id),
-#                         condition = phase,
-#                         outcome = mean_correct, improvement = 'increase',
-#                         ES = c('SMD'), std_dev = 'pool',
-#                         session_number = session, bias_correct = F,
-#                         format = 'wide')
+
 
 colr <- scales::hue_pal()(6)
 
@@ -318,13 +301,28 @@ theme_glmm2 <- function() {
     geom_ribbon(data = df %>% filter(sub_id == 84 | sub_id == 99),
                 aes(x = session, ymin = lci, ymax = uci),  alpha = .1, linetype = 0,), #
       geom_line(data = df %>% filter(sub_id == 84 | sub_id == 99),
-                aes(y = preds, x = session),size = .75),
+                aes(y = preds, x = session), size = .75),
       annotate(geom = "text", x = 6, y = .85,
-               label = "GLMM = 1.40x/session", size = 6, family = 'roboto', hjust = "left",
+               label = "GLMM = 1.36x/session", size = 6, family = 'roboto', hjust = "left",
                color = "violetred3"),
       annotate(geom = "text", x = 9, y = .35,
-               label = "GLMM = 1.45x/session", size = 6, family = 'roboto', hjust = "left",
+               label = "GLMM = 1.41x/session", size = 6, family = 'roboto', hjust = "left",
                color = "orangered3")
+  )
+}
+
+theme_glmm3 <- function() {
+  list(
+    geom_ribbon(data = df %>% filter(sub_id == 84 | sub_id == 99),
+                aes(x = session, ymin = lci, ymax = uci),  alpha = .1, linetype = 0,), #
+    geom_line(data = df %>% filter(sub_id == 84 | sub_id == 99),
+              aes(y = preds, x = session), size = .75),
+    annotate(geom = "text", x = 6, y = .85,
+             label = "GLMM = 0.89x/session", size = 6, family = 'roboto', hjust = "left",
+             color = "violetred3"),
+    annotate(geom = "text", x = 9, y = .35,
+             label = "GLMM = 1.36x/session", size = 6, family = 'roboto', hjust = "left",
+             color = "orangered3")
   )
 }
 
@@ -367,7 +365,7 @@ theme_bmem1 <- function(){
 theme_bmem2 <- function(){
   list(
       annotate(geom = "text", x = 6, y = .85,
-               label = "BMEM = +17.5 words", size = 6, family = 'roboto', hjust = "left",
+               label = "BMEM = +13.3 words", size = 6, family = 'roboto', hjust = "left",
                color = "violetred3"),
       annotate(geom = "text", x = 9, y = .35,
                label = "BMEM: +19.5 words", size = 6, family = 'roboto', hjust = "left",

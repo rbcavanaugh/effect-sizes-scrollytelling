@@ -52,7 +52,7 @@ ui <- fluidPage(
       type = "button"
       ),
   longdiv(
-      h3("Introduction", style = "text-align: center; padding-bottom: 3%"),
+      h3("Introduction: NOTE CURRENTLY UNDER REVISION", style = "text-align: center; padding-bottom: 3%"),
       p(ls$text1a), #style = 'text-align: center;'),
       p(ls$text1a2), #style = 'text-align: center;'),
       p(ls$text1b) #style = 'text-align: center;')
@@ -96,8 +96,7 @@ ui <- fluidPage(
                                                p(ls$TAUa)),
                                scrolly_section(id = "10", h3("Tau-U"),
                                                p(ls$TAU1),
-                                               p(ls$TAU2),
-                                               p(ls$TAU3)),
+                                               p(ls$TAU2)),
                                scrolly_section(id = "11", h3("Proportion of Potential Maximal Gain"),
                                                p(ls$PMG1),
                                                h4(ls$PMG_eq)),
@@ -105,35 +104,34 @@ ui <- fluidPage(
                                                p(ls$PMG2),
                                                p(ls$PMG3)),
                                scrolly_section(id = "13", h3("Generalized linear mixed-effects models"),
-                                               p(ls$GLMM1),
-                                               p(ls$GLMM2)),
-                                               #p(ls$GLMM_eq)),
+                                               p(ls$GLMM1)),
                                scrolly_section(id = "14", h3("Generalized linear mixed-effects models"),
-                                               p(ls$GLMM3),
+                                               p(ls$GLMM2),
+                                               p(ls$GLMM3)),
+                               scrolly_section(id = "15", h3("Generalized linear mixed-effects models"),
                                                p(ls$GLMM4)),
-                               scrolly_section(id = "15", h3("Bayesian GLMMs"),
+                               scrolly_section(id = "16", h3("Bayesian GLMMs"),
                                                p(ls$BMEM1),
                                                p(ls$BMEM_eq),
                                                p(ls$BMEM1a)),
-                               scrolly_section(id = "16", h3("Bayesian GLMMs"),
+                               scrolly_section(id = "17", h3("Bayesian GLMMs"),
                                                p(ls$BMEM2),
                                                br(),
                                                br()),
                             )),
 
 ########################################### summary ###########################################################         
-
-  div(h3("Agreement between effect size methods"),
+  ),
+  div(h3("Correspondance between effect size measures"),
     p(sum1),
-    p(sum2),
-    p(sum2a),style="text-align: left; padding-left:10%; padding-right:10%; padding-top:15%")
-),
-  div(img(src="shiny_plot.svg", heigth = "70%", width = "70%"), style="text-align: center;padding:5%"),
+    p(sum2),style="text-align: left; padding-left:10%; padding-right:10%; padding-top:15%"),
+  div(img(src="fig2.png", heigth = "70%", width = "70%"), style="text-align: center;padding:5%"),
   div(
-    h3("Recommendations"),
+    h3("Trends worth point out:"),
     p(sum3),
     p(sum4),
     p(sum5),
+    p(sum6),
     style="text-align: left; padding-left:10%; padding-right:10%; padding-top:2%;"
   ),
   div(h2(
@@ -144,14 +142,14 @@ ui <- fluidPage(
 
 ########################################### methods ########################################################### 
 
-div(h3("The nitty gritty"),
-    p("A Systematic Apprasial of Individual Effect Sizes in Aphasia Rehabilitation", style = "font-weight: bold;"),
-    p("Robert Cavanaugh, Lauren Terhorst, Alexander M. Swiderski, William D. Hula, William S. Evans"),
-    p("Poster: Academy of Aphasia 2020"),
-    br(),
-    p(methods1),
-    p(methods2),
-    style = "text-align:left; padding-left:10%; padding-right:10%"),
+# div(h3("The nitty gritty"),
+#     p("A Systematic Apprasial of Individual Effect Sizes in Aphasia Rehabilitation", style = "font-weight: bold;"),
+#     p("Robert Cavanaugh, Lauren Terhorst, Alexander M. Swiderski, William D. Hula, William S. Evans"),
+#     p("Poster: Academy of Aphasia 2020"),
+#     br(),
+#     p(methods1),
+#     p(methods2),
+#     style = "text-align:left; padding-left:10%; padding-right:10%"),
 
 ########################################### references ########################################################### 
 
@@ -186,8 +184,8 @@ div(p("This work was inspired by the 2019 CAC roundtable led by Natalie Gilmore 
        tags$a(href = "mailto:rob.cavanaugh@pitt.edu",
               icon("envelope")),
        style = "padding-left:20%; padding-right:20%"),
-    p(icon('copyright'), "2020 Robert Cavanaugh"),
-    h6("last updated: 10-9-20"),style = "text-align:center; padding:2.5%")
+    p(icon('copyright'), "2021 Robert Cavanaugh"),
+    h6("last updated: 1-9-21"),style = "text-align:center; padding:2.5%")
 )
 
 
@@ -226,12 +224,13 @@ server <- function(input, output) {
         t12  = c(31, 34), #PMG
         t13  = c(99), #GLMM
         t14  = c(84, 99), #GLMMM
-        t15  = c(12),
-        t16  = c(84, 99) #GLMMM#BMEM
+        t15  = c(84, 99), #GLMMM
+        t16  = c(12),
+        t17  = c(84, 99) #GLMMM#BMEM
     )
     
     # create variable sel for alpha
-    if(between(t, 1,16)) sel = ls2[[t]]
+    if(!is.na(t) && t>0 && t<18){sel = ls2[[t]]}else{sel<-NA}
     
     p <- if(isTruthy(t==1)) df %>% # plots all 100
       ggplot(aes(x = session, y = mean_correct, shape = phase, color = sub_id,
@@ -314,13 +313,19 @@ server <- function(input, output) {
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_glmm2()
-    else if(isTruthy(t==15)) df %>% # bmem 1
+    else if(isTruthy(t==15)) df %>% # glmm 2
+      filter(sub_id %in% ls2[[1]]) %>%
+      ggplot(aes(x = session, y = mean_correct, #shape = phase,
+                 color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
+      theme_scrolly() +
+      theme_glmm3()
+    else if(isTruthy(t==16)) df %>% # bmem 1
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
       theme_scrolly() +
       theme_bmem1()
-    else if(isTruthy(t==16)) df %>%
+    else if(isTruthy(t==17)) df %>%
       filter(sub_id %in% ls2[[1]]) %>%
       ggplot(aes(x = session, y = mean_correct, shape = phase,
                  color = sub_id, alpha = ifelse(sub_id %in% sel, .85, 0.05))) +
