@@ -52,7 +52,7 @@ ui <- fluidPage(
       type = "button"
       ),
   longdiv(
-      h3("Introduction: NOTE CURRENTLY UNDER REVISION", style = "text-align: center; padding-bottom: 3%"),
+      h3("Introduction: (note: currently under revision)", style = "text-align: center; padding-bottom: 3%"),
       p(ls$text1a), #style = 'text-align: center;'),
       p(ls$text1a2), #style = 'text-align: center;'),
       p(ls$text1b) #style = 'text-align: center;')
