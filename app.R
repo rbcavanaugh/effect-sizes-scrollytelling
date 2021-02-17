@@ -35,7 +35,8 @@ ui <- fluidPage(
   includeScript('www/scrolldown.js'),
   tags$head(
     tags$link(rel = "stylesheet", href = "style.css"),
-    tags$link(rel="stylesheet", media="screen and (max-device-width: 767px)", href="style_mobile2.css")
+    tags$link(rel="stylesheet", media="screen and (max-device-width: 767px)", href="style_mobile2.css"),
+    includeHTML("www/analytics.html")
   ),
   withMathJax(),
   div(class="demo_wrap",

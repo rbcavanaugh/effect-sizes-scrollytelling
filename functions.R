@@ -1,4 +1,6 @@
 
+
+
 library(readr)
 library(here)
 library(dplyr)
@@ -204,10 +206,11 @@ theme_nap <- function() {
     annotate(geom = "text", x = 5.28, y = 0.03, label = TeX("$\\frac{0}{10}$",
                                                             output = 'character'),
              size = 6, family = 'roboto', parse = T),
-    geom_label_repel(aes(label = ifelse(sub_id == 15 & phase == 'treatment' & mean_correct > 4/30 &
-                                          phase == 'treatment' & mean_correct < 6/30, "T",
-                                        ifelse(sub_id == 15 & phase == 'treatment' & mean_correct > 5/30, "N",
-                                               ifelse(sub_id == 15 & phase == 'treatment' & mean_correct < 5/30, "O", "")))),
+    geom_label_repel(
+      aes(label = ifelse(sub_id == 15 && phase == 'treatment' && mean_correct > 4/30 &&
+                                          phase == 'treatment' && mean_correct < 6/30, "T",
+                                        ifelse(sub_id == 15 && phase == 'treatment' && mean_correct > 5/30, "N",
+                                               ifelse(sub_id == 15 && phase == 'treatment' && mean_correct < 5/30, "O", "")))),
                      color = 'black',
                      size = 6,
                      family = 'roboto',

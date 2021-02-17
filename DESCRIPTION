@@ -1,0 +1,29 @@
+Package: scrollytell
+Title: Effect size website for aphasia
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Rob",
+           family = "Cavanaugh",
+           role = c("aut", "cre"),
+           email = "rob.cavanaugh@pitt.edu",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: `use_gpl3_license()` 
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    readr,
+    here,
+    dplyr,
+    ggplot2,
+    see,
+    RColorBrewer,
+    ggrepel,
+    latex2exp,
+    grid,
+    shiny,
+    scrollytell,
+    curl,
+    shinyjs
