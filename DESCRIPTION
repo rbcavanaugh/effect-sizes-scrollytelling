@@ -26,4 +26,5 @@ Imports:
     shiny,
     scrollytell,
     curl,
-    shinyjs
+    shinyjs,
+    showtext

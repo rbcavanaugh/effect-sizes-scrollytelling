@@ -1,15 +1,8 @@
 
 
 
-library(readr)
+library(showtext)
 library(here)
-library(dplyr)
-library(ggplot2)
-library(see)
-library(RColorBrewer)
-library(ggrepel)
-library(latex2exp)
-library(grid)
 
 logit2prob <- function(logit){
   odds <- exp(logit)
@@ -21,13 +14,13 @@ df99 <- read_csv(here('data', 'boot99.csv')) %>%
   mutate_at(2:4, .funs = logit2prob) %>%
   mutate(session = seq(1,15,1),
          sub_id = as.factor(99)) %>%
-  select(-X1) 
+  select(-X1)
 
 df84 <- read_csv(here('data', 'preds84.csv')) %>%
   mutate_at(2:4, .funs = logit2prob) %>%
   mutate(session = seq(1,15,1),
          sub_id = as.factor(84)) %>%
-  select(-X1) 
+  select(-X1)
 
 dfpreds <- bind_rows(df99, df84)
 
@@ -37,12 +30,10 @@ df <- read.csv(here('data', 'session_summary.csv')) %>%
          phase = as.factor(ifelse(phase == 0, 'baseline', 'treatment'))) %>%
   left_join(dfpreds, by = c('session', 'sub_id'))
 
-
 colr <- scales::hue_pal()(6)
 
 t = 1
 
-library(showtext)
 font_add_google(name = "Roboto", family = "roboto",
                 regular.wt = 400, bold.wt = 500)
 showtext_auto()

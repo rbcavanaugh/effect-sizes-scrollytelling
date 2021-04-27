@@ -13,23 +13,35 @@
 # more concise paragraphcs
 # name to bottom
 # 'other considerations' section: credible/confidence intervals. other DVs etc.
-
+check = NULL
 library(shiny)
 library(scrollytell)
-library(curl)
 library(shinyjs)
-
+library(waiter)
+library(dplyr)
+library(readr)
 source('functions.R')
 source('text.R')
 options(gganimate.dev_args = list(bg = 'transparent'))
 # Define UI for application that draws a histogram
 
+loading_function <- function(){
+library(curl)
+library(ggplot2)
+library(see)
+library(RColorBrewer)
+library(ggrepel)
+library(latex2exp)
+library(grid)
+}
 ######################################################################################################
 ############################################## ui ################################################
 ######################################################################################################
 
 
 ui <- fluidPage(  
+  use_waiter(),
+  waiter_preloader(color = "white", html = spin_hexdots()),
   mobileDetect('isMobile'),
   shinyjs::useShinyjs(),
   includeScript('www/scrolldown.js'),
@@ -197,6 +209,8 @@ div(p("This work was inspired by the 2019 CAC roundtable led by Natalie Gilmore 
 
 server <- function(input, output) {
   
+  loading_function()
+  
     output$isItMobile <- renderText({
       ifelse(input$isMobile, "Not optimized for mobile: Recommend viewing in landscape", "")
     })
@@ -345,7 +359,8 @@ server <- function(input, output) {
      list(src = "www/outfile.png",
           contentType = 'image/svg',
           alt = "This is also alternate text")
-
+     
+     
   },  deleteFile = F) # don't keep file
   
   # output
@@ -354,6 +369,8 @@ server <- function(input, output) {
   })
   
   shinyjs::onclick("scrll", runjs("(window.scroll(0,findPos(document.getElementById('scr'))))"))
+  
+
 }
 
 
